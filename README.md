@@ -2,6 +2,6 @@
 
 hillo
 
-![mine](jetty373.github.io/blob/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
+![mine](https://github.com/jetty373/jetty373.github.io/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
 
 [dont use it](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
