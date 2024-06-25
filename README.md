@@ -1,4 +1,4 @@
-hillo
+hello i'm jett, and this is my class 9 website and the work that i have done is locatead here.
 
 ![mine](https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
 [lakephoto](https://jetty373.github.io/lake.html)
