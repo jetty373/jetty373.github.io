@@ -5,6 +5,6 @@ A 2D Minecraft clone made with pure HTML & CSS – no JavaScript.
 
 Play the game: [benjaminaster.com/2d-css-minecraft](https://benjaminaster.com/2d-css-minecraft/)
 
-[lakephoto](https://github.com/jetty373/jetty373.github.io/blob/main/lake.html)
+[lakephoto](https://jetty373.github.io/main/lake.html)
 
 ![screenshot of the game containing a tree and a house](./assets/screenshot.png)
