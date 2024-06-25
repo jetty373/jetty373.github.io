@@ -1,7 +1,8 @@
-# jetty373.github.io
 
-hillo
+# 2D CSS Minecraft
 
-![mine](https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
+A 2D Minecraft clone made with pure HTML & CSS – no JavaScript.
 
-[dont use it](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+Play the game: [benjaminaster.com/2d-css-minecraft](https://benjaminaster.com/2d-css-minecraft/)
+
+![screenshot of the game containing a tree and a house](./assets/screenshot.png)
