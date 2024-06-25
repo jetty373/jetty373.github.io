@@ -1,4 +1,4 @@
-hello i'm jett, and this is my class 9 website and the work that i have done is locatead here.
+Hello i'm jett, and this is my class 9 website and the work that i have done is locatead here.
 
 ![mine](https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
 [lakephoto](https://jetty373.github.io/lake.html)
@@ -9,4 +9,4 @@ hello i'm jett, and this is my class 9 website and the work that i have done is 
 
 [2d minecraft clone](https://benjaminaster.com/2d-css-minecraft)
 
-[minecraft 1.8](jetty373.github.io/Minecraft_1.8_launch.html)
+[minecraft 1.8](jetty373.github.io/minecraftX.html)
