@@ -9,6 +9,4 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 
 [2d minecraft clone](https://benjaminaster.com/2d-css-minecraft)
 
-<a>
-
-[minecraft 1.8](https://jetty373.github.io/minecraftX.html)
+<a>[minecraft 1.8](https://jetty373.github.io/minecraftX.html)
