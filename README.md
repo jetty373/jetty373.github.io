@@ -1,3 +1,14 @@
+<html>
+ <head>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      
+        }
+  </style>
+</head>
+  <body>
 Hello i'm jett, and this is my class 9 website and the work that i have done is locatead here.
 
 ![mine](https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/wallpaper_minecraft_pc_bundle_2058x1440.png)
@@ -11,4 +22,6 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 
 <a>[minecraft 1.8](https://jetty373.github.io/minecraftX.html)</a>
 
-
+  </body>
+  
+</html>
