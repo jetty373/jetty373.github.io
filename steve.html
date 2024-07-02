@@ -36,7 +36,7 @@
 
             // Load the Minecraft Steve model
             const loader = new THREE.GLTFLoader();
-            loader.load('jetty373.github.io/steve_model.glb', function (gltf) {
+            loader.load('https://jetty373.github.io/steve_model.glb', function (gltf) {
                 const model = gltf.scene;
                 scene.add(model);
             }, undefined, function (error) {
