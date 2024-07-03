@@ -12,3 +12,5 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 <a>[Play Minecraft](https://sharevault.cloud/EOC2SU)</a>
 
 [steve modle](https://jetty373.github.io/steve.html)
+
+[test instrutions](https://jetty373.github.io/minecraft.html)
