@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extreme Edge Rock Climbing Auckland</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: url('https://via.placeholder.com/1200x600') no-repeat center center/cover;
+            height: 60vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            background-color: #333;
+            padding: 10px;
+            justify-content: center;
+            margin: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        section {
+            padding: 20px;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+        }
+        .climbing-section .service-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .climbing-section .service-item {
+            width: 45%;
+            margin: 10px 0;
+        }
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            background-color: #555;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .climbing-section .service-item {
+                width: 100%;
+            }
+            header {
+                height: 50vh;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Extreme Edge Rock Climbing</h1>
+        <p>New Zealand's Largest Indoor Climbing Facility</p>
+        <a href="#book" class="btn-primary">Book Now</a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Climbing</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#membership">Membership</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Extreme Edge Panmure offers the ultimate indoor climbing experience. Housed in a former aircraft hangar, 
+            our facility caters to all levels, from beginners to elite climbers.</p>
+        </section>
+
+        <section id="services" class="climbing-section">
+            <h2>Climbing Services</h2>
+            <div class="service-list">
+                <div class="service-item">
+                    <h3>Top-rope Climbing</h3>
+                    <img src="https://via.placeholder.com/400x300" alt="Top-rope climbing" width="100%">
+                    <p>Challenge yourself with over 200 top-rope routes, suitable for all abilities.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Bouldering</h3>
+                    <img src="https://via.placeholder.com/400x300" alt="Bouldering" width="100%">
+                    <p>Explore our dedicated bouldering area, designed to test your strength and technique.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Lead Climbing</h3>
+                    <img src="https://via.placeholder.com/400x300" alt="Lead climbing" width="100%">
+                    <p>Experience our advanced overhanging lead walls, unrivaled in New Zealand.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Classes & Coaching</h3>
+                    <img src="https://via.placeholder.com/400x300" alt="Classes and Coaching" width="100%">
+                    <p>Join our expert-led classes, available for all ages and levels, including youth programs and elite coaching.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="shop">
+            <h2>Shop</h2>
+            <p>Browse our range of climbing gear, harnesses, shoes, and accessories. Get everything you need for your next adventure.</p>
+            <a href="#" class="btn-secondary">Shop Now</a>
+        </section>
+
+        <section id="membership">
+            <h2>Membership Options</h2>
+            <p>We offer a variety of membership plans, from casual day passes to full memberships with added benefits like discounted gear and coaching sessions.</p>
+            <ul>
+                <li>1 Month: $164 (Adult), $116 (Child)</li>
+                <li>3 Months: $366 (Adult), $295 (Child)</li>
+                <li>12 Months: $1,100 (Adult), $855 (Child)</li>
+            </ul>
+            <a href="#" class="btn-secondary">Join Now</a>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Address: 32 Morrin Road, Panmure, Auckland 1072</p>
+            <p>Email: info@extremeedge.co.nz | Phone: 09 574 5677</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Extreme Edge Rock Climbing</p>
+    </footer>
+</body>
+</html>
