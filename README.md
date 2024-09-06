@@ -15,4 +15,4 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 
 [test instrutions](https://jetty373.github.io/minecraft.html)
 
-[EE](https://github.com/jetty373/EE/blob/main/formatted_extreme_edge_rock_climbing.html)
+[EE](https://jetty373.github.io/extreme_edge_rock_climbing_with_images.html)
