@@ -18,3 +18,5 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 [EE](https://jetty373.github.io/extreme_edge_rock_climbing_with_images.html)
 
 [ee ai](https://jetty373.github.io/ee_ai.html)
+
+[cookies](https://jetty373.github.io/cookies.html)
