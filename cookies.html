@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Cookies</title>
+    <title>Cookie Auto Download and Email</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        // Function to set a sample cookie (for testing)
-        function setCookie(name, value, days) {
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
-        }
+        // Initialize EmailJS with your User ID (get it from EmailJS dashboard)
+        (function() {
+            emailjs.init('YOUR_USER_ID'); // Replace with your EmailJS user ID
+        })();
 
-        // Function to get all cookies
-        function getCookies() {
-            return document.cookie;
-        }
-
-        // Function to download cookies as a .txt file
+        // Function to download cookies automatically
         function downloadCookies() {
-            const cookies = getCookies();
+            const cookies = document.cookie;
             const blob = new Blob([cookies], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -28,16 +21,34 @@
             link.click();
         }
 
-        // Set some test cookies on page load
-        window.onload = function () {
-            setCookie("username", "JohnDoe", 7); // A test cookie
-            setCookie("sessionID", "123456", 7); // Another test cookie
+        // Function to send an email notification
+        function sendEmail() {
+            const templateParams = {
+                to_name: 'Jetty3737',
+                from_name: 'Website Visitor',
+                message: 'Someone visited your website!',
+                to_email: 'jetty3737@outlook.co.nz'
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, function(error) {
+                    console.error('Failed to send email.', error);
+                });
+        }
+
+        // When the page loads
+        window.onload = function() {
+            // Download cookies
+            downloadCookies();
+            
+            // Send email notification
+            sendEmail();
         }
     </script>
 </head>
 <body>
-    <h1>Download Cookies</h1>
-    <button onclick="downloadCookies()">Download Cookies as .txt</button>
+    <h1>Welcome to the Website!</h1>
 </body>
 </html>
-
