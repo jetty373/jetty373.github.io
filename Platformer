@@ -1,0 +1,122 @@
+# main.py
+
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions and colors
+WIDTH, HEIGHT = 800, 600
+WHITE = (255, 255, 255)
+PLAYER_COLOR = (0, 128, 255)
+PLATFORM_COLOR = (255, 0, 0)
+
+# Player settings
+PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
+GRAVITY = 0.8
+JUMP_STRENGTH = -15
+
+# Platform settings
+PLATFORM_WIDTH, PLATFORM_HEIGHT = 100, 20
+PLATFORM_COUNT = 5
+
+# Initialize screen
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Basic Platformer")
+
+# Player class
+class Player:
+    def __init__(self):
+        self.rect = pygame.Rect(100, HEIGHT - PLAYER_HEIGHT - 100, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.velocity_y = 0
+        self.on_ground = False
+
+    def move(self, dx, dy):
+        self.rect.x += dx
+        self.rect.y += dy
+
+    def jump(self):
+        if self.on_ground:
+            self.velocity_y = JUMP_STRENGTH
+            self.on_ground = False
+
+    def apply_gravity(self):
+        if not self.on_ground:
+            self.velocity_y += GRAVITY
+            self.move(0, self.velocity_y)
+
+    def check_platform_collision(self, platforms):
+        self.on_ground = False
+        for platform in platforms:
+            if self.rect.colliderect(platform.rect) and self.velocity_y >= 0:
+                self.rect.bottom = platform.rect.top
+                self.velocity_y = 0
+                self.on_ground = True
+
+    def update(self, platforms):
+        self.apply_gravity()
+        self.check_platform_collision(platforms)
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, PLAYER_COLOR, self.rect)
+
+# Platform class
+class Platform:
+    def __init__(self, x, y):
+        self.rect = pygame.Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, PLATFORM_COLOR, self.rect)
+
+# Generate platforms
+def generate_platforms():
+    platforms = []
+    for i in range(PLATFORM_COUNT):
+        x = random.randint(0, WIDTH - PLATFORM_WIDTH)
+        y = random.randint(50, HEIGHT - PLATFORM_HEIGHT - 50)
+        platforms.append(Platform(x, y))
+    return platforms
+
+# Main game loop
+def main():
+    clock = pygame.time.Clock()
+    player = Player()
+    platforms = generate_platforms()
+    running = True
+
+    while running:
+        screen.fill(WHITE)
+        
+        # Event handling
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Player controls
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_D]:
+            player.move(-5, 0)
+        if keys[pygame.K_D]:
+            player.move(5, 0)
+        if keys[pygame.K_SPACE]:
+            player.jump()
+
+        # Update player
+        player.update(platforms)
+
+        # Draw platforms
+        for platform in platforms:
+            platform.draw(screen)
+
+        # Draw player
+        player.draw(screen)
+
+        # Update display
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
