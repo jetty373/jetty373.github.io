@@ -22,3 +22,6 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 [cookies](https://jetty373.github.io/cookies.html)
 
 [platformer](https://jetty373.github.io/Platformer)
+
+<a href="game/index.html">Play the Platformer Game</a>
+
