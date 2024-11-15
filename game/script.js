@@ -50,6 +50,9 @@ function create() {
     decreaseJump: Phaser.Input.Keyboard.KeyCodes.O,
     increaseJump: Phaser.Input.Keyboard.KeyCodes.P
   });
+
+  // Display initial jump power in the console
+  console.log("Initial Jump Power:", jumpPower);
 }
 
 function update() {
@@ -87,5 +90,6 @@ function update() {
   // Jump if touching the ground (Space or W key)
   if ((keys.jump.isDown || keys.up.isDown) && player.body.touching.down) {
     player.setVelocityY(-jumpPower);
+    console.log("Jumping with power:", jumpPower);
   }
 }
