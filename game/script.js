@@ -19,7 +19,6 @@ const config = {
 
 const game = new Phaser.Game(config);
 let player;
-let cursors;
 let keys;
 
 function preload() {
@@ -39,7 +38,7 @@ function create() {
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
 
-  // Define custom key bindings
+  // Define custom key bindings (W, A, S, D, Space, Shift)
   keys = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
     down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -48,9 +47,6 @@ function create() {
     jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
     sprint: Phaser.Input.Keyboard.KeyCodes.SHIFT
   });
-
-  // Add collision between player and ground
-  this.physics.add.collider(player, ground);
 }
 
 function update() {
@@ -64,19 +60,19 @@ function update() {
     speed = 240; // Sprinting speed
   }
 
-  // Move left
+  // Move left (A key)
   if (keys.left.isDown) {
     player.setVelocityX(-speed);
     player.flipX = true; // Flip the player image to face left
   }
-  // Move right
+  // Move right (D key)
   else if (keys.right.isDown) {
     player.setVelocityX(speed);
     player.flipX = false; // Face right
   }
 
-  // Jump if touching the ground
-  if (keys.jump.isDown && player.body.touching.down) {
+  // Jump if touching the ground (Space or W key)
+  if ((keys.jump.isDown || keys.up.isDown) && player.body.touching.down) {
     player.setVelocityY(-330);
   }
 }
