@@ -20,6 +20,7 @@ const config = {
 const game = new Phaser.Game(config);
 let player;
 let keys;
+let jumpPower = 330; // Starting jump power
 
 function preload() {
   // Load the character sprite (replace with actual URL or local path if available)
@@ -38,14 +39,16 @@ function create() {
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
 
-  // Define custom key bindings (W, A, S, D, Space, Shift)
+  // Define custom key bindings (W, A, S, D, Space, Shift, O, and P)
   keys = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
     down: Phaser.Input.Keyboard.KeyCodes.S,
     left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D,
     jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
-    sprint: Phaser.Input.Keyboard.KeyCodes.SHIFT
+    sprint: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    decreaseJump: Phaser.Input.Keyboard.KeyCodes.O,
+    increaseJump: Phaser.Input.Keyboard.KeyCodes.P
   });
 }
 
@@ -71,8 +74,18 @@ function update() {
     player.flipX = false; // Face right
   }
 
+  // Adjust jump power with O and P keys
+  if (keys.decreaseJump.isDown) {
+    jumpPower = Math.max(50, jumpPower - 10); // Minimum jump power of 50
+    console.log("Jump Power Decreased:", jumpPower);
+  }
+  if (keys.increaseJump.isDown) {
+    jumpPower = Math.min(600, jumpPower + 10); // Maximum jump power of 600
+    console.log("Jump Power Increased:", jumpPower);
+  }
+
   // Jump if touching the ground (Space or W key)
   if ((keys.jump.isDown || keys.up.isDown) && player.body.touching.down) {
-    player.setVelocityY(-330);
+    player.setVelocityY(-jumpPower);
   }
 }
