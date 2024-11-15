@@ -7,23 +7,25 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 500 },
-      debug: false,
-    },
+      debug: false
+    }
   },
   scene: {
     preload: preload,
     create: create,
-    update: update,
-  },
+    update: update
+  }
 };
 
 const game = new Phaser.Game(config);
 let player;
+let cursors;
 let keys;
 
 function preload() {
-  // Load the character sprite and platform images
+  // Load the character sprite (replace with actual URL or local path if available)
   this.load.image("player", "https://examples.phaser.io/assets/sprites/phaser-dude.png");
+  // Load a simple platform image
   this.load.image("ground", "https://examples.phaser.io/assets/sprites/platform.png");
 }
 
@@ -37,14 +39,14 @@ function create() {
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
 
-  // Add keyboard inputs for WASD, Space, and Shift
+  // Define custom key bindings
   keys = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
-    left: Phaser.Input.Keyboard.KeyCodes.A,
     down: Phaser.Input.Keyboard.KeyCodes.S,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D,
     jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
-    sprint: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    sprint: Phaser.Input.Keyboard.KeyCodes.SHIFT
   });
 
   // Add collision between player and ground
@@ -52,11 +54,15 @@ function create() {
 }
 
 function update() {
-  // Reset player velocity
+  // Reset player velocity (movement)
   player.setVelocityX(0);
 
-  // Sprint (Shift) increases movement speed
-  let speed = keys.sprint.isDown ? 240 : 160;
+  let speed = 160; // Normal movement speed
+
+  // Check if the sprint key is held to increase speed
+  if (keys.sprint.isDown) {
+    speed = 240; // Sprinting speed
+  }
 
   // Move left
   if (keys.left.isDown) {
@@ -69,7 +75,7 @@ function update() {
     player.flipX = false; // Face right
   }
 
-  // Jump when touching the ground
+  // Jump if touching the ground
   if (keys.jump.isDown && player.body.touching.down) {
     player.setVelocityY(-330);
   }
