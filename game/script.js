@@ -23,10 +23,9 @@ let keys;
 let jumpPower = 330; // Starting jump power
 
 function preload() {
-  // Load the character sprite (replace with actual URL or local path if available)
-  this.load.image("player", "https://examples.phaser.io/assets/sprites/phaser-dude.png");
-  // Load a simple platform image
-  this.load.image("ground", "https://examples.phaser.io/assets/sprites/platform.png");
+  // Load new URLs for the character sprite and platform
+  this.load.image("player", "https://labs.phaser.io/assets/sprites/phaser-dude.png");
+  this.load.image("ground", "https://labs.phaser.io/assets/sprites/platform.png");
 }
 
 function create() {
@@ -53,6 +52,9 @@ function create() {
 
   // Display initial jump power in the console
   console.log("Initial Jump Power:", jumpPower);
+
+  // Add collision between player and ground
+  this.physics.add.collider(player, ground);
 }
 
 function update() {
