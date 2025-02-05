@@ -19,7 +19,7 @@ Hello i'm jett, and this is my class 9 website and the work that i have done is 
 
 [ee ai](https://jetty373.github.io/eeai.html)
 
-[cookies](https://jetty373.github.io/cookies.html)
+[cookies](https://jetty373.github.io/counter.html)
 
 [platformer](https://jetty373.github.io/Platformer)
 
