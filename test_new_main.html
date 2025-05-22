@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jetty373 - FPV Drone Pilot & Electric Motorbike Builder</title>
     <style>
-        /* ========================================
-           RESET AND BASE STYLES
-           ======================================== */
+        /* Reset and base styles */
         * {
             margin: 0;
             padding: 0;
@@ -21,9 +19,7 @@
             line-height: 1.6;
         }
         
-        /* ========================================
-           NAVIGATION STYLES
-           ======================================== */
+        /* Navigation */
         nav {
             display: flex;
             justify-content: space-between;
@@ -32,29 +28,26 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000; /* Keep nav above everything */
+            z-index: 1000;
             background-color: rgba(249, 249, 249, 0.95);
             transition: all 0.3s ease;
         }
         
-        /* Logo styling */
         .logo {
             font-weight: 700;
             font-size: 1.5rem;
             letter-spacing: 2px;
         }
         
-        /* Navigation links container */
-        .nav-links {
+        .nav-links {https://github.com/jetty373/jetty373.github.io/blob/main/img_website_v2/img_mungaphisunset_ocean.webp}
             display: flex;
             list-style: none;
         }
         
-        .nav-links li {
+        .nav-links li {https://github.com/jetty373/jetty373.github.io/blob/main/img_website_v2/img_trucktopdown.webp}
             margin-left: 2rem;
         }
         
-        /* Navigation link styling with hover effects */
         .nav-links a {
             text-decoration: none;
             color: #333;
@@ -66,155 +59,69 @@
             color: #777;
         }
         
-        /* ========================================
-           HERO SECTION WITH IMAGE CAROUSEL
-           ======================================== */
-        .hero {https://github.com/jetty373/jetty373.github.io/blob/main/img_website_v2/img_trucktopdown.webp}
-            height: 100vh; /* Full viewport height */
+        /* Hero section */
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
             padding: 0 10%;
             position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1579373791421-12f2d66321d3?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
             color: #fff;
-            overflow: hidden; /* Prevent image overflow */
         }
         
-        /* Carousel container - holds all background images */
-        .hero-carousel {https://github.com/jetty373/jetty373.github.io/blob/main/img_website_v2/img_bigdrone_onrage_far.webp}
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Behind content but above body */
-        }
-        
-        /* Individual slide styling - each background image */
-        .hero-slide {https://github.com/jetty373/jetty373.github.io/blob/main/img_website_v2/img_mungaphisunset_ocean.webp}
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0; /* Hidden by default */
-            transition: opacity 1.5s ease-in-out; /* Smooth fade transition */
-            background-size: cover; /* Cover entire area */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat;
-        }
-        
-        /* Active slide is visible */
-        .hero-slide.active {
-            opacity: 1;
-        }
-        
-        /* Dark overlay for better text readability */
-        .hero-slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-            z-index: 1;
-        }
-        
-        /* Hero content container - ensures text is above overlay */
-        .hero-content {
-            position: relative;
-            z-index: 2; /* Above overlay */
-        }
-        
-        /* Main hero heading */
         .hero h1 {
             font-size: 4rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for readability */
         }
         
-        /* Hero description text */
         .hero p {
             font-size: 1.5rem;
             margin-bottom: 2rem;
             max-width: 600px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         
-        /* Call-to-action button */
         .cta-button {
             display: inline-block;
             padding: 1rem 2rem;
-            background-color: #ff6b00; /* Orange brand color */
+            background-color: #ff6b00;
             color: #fff;
             text-decoration: none;
             font-weight: 500;
             border-radius: 2px;
             transition: background-color 0.3s ease;
-            text-shadow: none; /* No shadow on button text */
         }
         
         .cta-button:hover {
-            background-color: #e55f00; /* Darker orange on hover */
+            background-color: #e55f00;
         }
         
-        /* ========================================
-           CAROUSEL INDICATOR DOTS
-           ======================================== */
-        .carousel-indicators {
-            position: absolute;
-            bottom: 30px; /* Distance from bottom */
-            left: 50%;
-            transform: translateX(-50%); /* Center horizontally */
-            display: flex;
-            gap: 10px;
-            z-index: 3; /* Above everything else */
-        }
-        
-        /* Individual indicator dot */
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%; /* Make it circular */
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        /* Active indicator styling */
-        .indicator.active {
-            background-color: #ff6b00; /* Orange when active */
-        }
-        
-        /* ========================================
-           ABOUT SECTION
-           ======================================== */
+        /* About section */
         .about {
             padding: 6rem 10%;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
         }
         
-        /* About section image container */
         .about-img {
             width: 100%;
             height: 500px;
-            background-color: #ddd; /* Fallback color */
+            background-color: #ddd;
             overflow: hidden;
         }
         
         .about-img img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Maintain aspect ratio */
+            object-fit: cover;
         }
         
-        /* About section text styling */
         .about-content h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
@@ -224,15 +131,12 @@
             margin-bottom: 1.5rem;
         }
         
-        /* ========================================
-           PROJECTS SECTION
-           ======================================== */
+        /* Projects section */
         .projects {
             padding: 6rem 10%;
             background-color: #fff;
         }
         
-        /* Centered section headers */
         .section-header {
             text-align: center;
             margin-bottom: 4rem;
@@ -243,14 +147,12 @@
             margin-bottom: 1rem;
         }
         
-        /* Project cards grid layout */
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
         
-        /* Individual project card */
         .project-card {
             background-color: #f9f9f9;
             overflow: hidden;
@@ -259,12 +161,10 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        /* Hover effect for project cards */
         .project-card:hover {
-            transform: translateY(-10px); /* Lift up on hover */
+            transform: translateY(-10px);
         }
         
-        /* Project image container */
         .project-img {
             height: 250px;
             overflow: hidden;
@@ -277,12 +177,10 @@
             transition: transform 0.3s ease;
         }
         
-        /* Image zoom effect on hover */
         .project-card:hover .project-img img {
             transform: scale(1.05);
         }
         
-        /* Project text content */
         .project-content {
             padding: 1.5rem;
         }
@@ -291,22 +189,18 @@
             margin-bottom: 0.5rem;
         }
         
-        /* ========================================
-           LINKS SECTION
-           ======================================== */
+        /* Links section */
         .links {
             padding: 6rem 10%;
             background-color: #f2f2f2;
         }
         
-        /* Links grid layout */
         .links-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem;
         }
         
-        /* Individual link card */
         .link-card {
             background-color: #fff;
             padding: 2rem;
@@ -320,18 +214,16 @@
             transform: translateY(-5px);
         }
         
-        /* Link card icons */
         .link-card i {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #ff6b00; /* Orange brand color */
+            color: #ff6b00;
         }
         
         .link-card h3 {
             margin-bottom: 1rem;
         }
         
-        /* Link card buttons */
         .link-card a {
             display: inline-block;
             padding: 0.5rem 1.5rem;
@@ -346,28 +238,23 @@
             background-color: #e55f00;
         }
         
-        /* ========================================
-           BUILDS SECTION (FPV & SURRON)
-           ======================================== */
+        /* FPV & Surron section */
         .builds {
             padding: 6rem 10%;
         }
         
-        /* Build items container */
         .build-container {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns */
+            grid-template-columns: 1fr 1fr;
             gap: 4rem;
             margin-top: 3rem;
         }
         
-        /* Individual build item */
         .build-item {
             display: flex;
             flex-direction: column;
         }
         
-        /* Build image container */
         .build-img {
             height: 350px;
             overflow: hidden;
@@ -381,7 +268,6 @@
             object-fit: cover;
         }
         
-        /* Build content text */
         .build-content h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
@@ -396,12 +282,10 @@
             margin-bottom: 0.5rem;
         }
         
-        /* ========================================
-           CONTACT SECTION
-           ======================================== */
+        /* Contact section */
         .contact {
             padding: 6rem 10%;
-            background-color: #333; /* Dark background */
+            background-color: #333;
             color: #fff;
         }
         
@@ -409,13 +293,11 @@
             color: #fff;
         }
         
-        /* Contact form container */
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
         }
         
-        /* Form input groups */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -425,7 +307,6 @@
             margin-bottom: 0.5rem;
         }
         
-        /* Form inputs and textarea */
         .form-group input,
         .form-group textarea {
             width: 100%;
@@ -436,10 +317,9 @@
         
         .form-group textarea {
             min-height: 150px;
-            resize: vertical; /* Allow vertical resizing only */
+            resize: vertical;
         }
         
-        /* Form submit button */
         .submit-button {
             display: inline-block;
             padding: 1rem 2rem;
@@ -457,17 +337,14 @@
             background-color: #e55f00;
         }
         
-        /* ========================================
-           FOOTER SECTION
-           ======================================== */
+        /* Footer */
         footer {
             padding: 3rem 10%;
             text-align: center;
-            background-color: #222; /* Darker than contact section */
+            background-color: #222;
             color: #fff;
         }
         
-        /* Social media links */
         .social-links {
             display: flex;
             justify-content: center;
@@ -487,14 +364,11 @@
         }
         
         .social-links a:hover {
-            color: #ff6b00; /* Orange on hover */
+            color: #ff6b00;
         }
         
-        /* ========================================
-           RESPONSIVE DESIGN - TABLET
-           ======================================== */
+        /* Responsive styles */
         @media (max-width: 768px) {
-            /* Smaller hero text for tablets */
             .hero h1 {
                 font-size: 3rem;
             }
@@ -503,22 +377,16 @@
                 font-size: 1.2rem;
             }
             
-            /* Single column layout for about and builds */
             .about, .build-container {
                 grid-template-columns: 1fr;
             }
             
-            /* Smaller about image on tablets */
             .about-img {
                 height: 300px;
             }
         }
         
-        /* ========================================
-           RESPONSIVE DESIGN - MOBILE
-           ======================================== */
         @media (max-width: 576px) {
-            /* Stack navigation vertically on mobile */
             nav {
                 flex-direction: column;
                 padding: 1rem 5%;
@@ -533,23 +401,17 @@
                 margin-right: 1rem;
             }
             
-            /* Even smaller hero text for mobile */
             .hero h1 {
                 font-size: 2.5rem;
             }
         }
         
-        /* ========================================
-           EXTERNAL FONT IMPORTS
-           ======================================== */
-        /* Import Font Awesome for social media icons */
+        /* Add Font Awesome for icons */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     </style>
 </head>
 <body>
-    <!-- ========================================
-         NAVIGATION BAR
-         ======================================== -->
+    <!-- Navigation -->
     <nav>
         <div class="logo">JETTY373</div>
         <ul class="nav-links">
@@ -562,73 +424,14 @@
         </ul>
     </nav>
     
-    <!-- ========================================
-         HERO SECTION WITH IMAGE CAROUSEL
-         ======================================== -->
+    <!-- Hero Section -->
     <section id="home" class="hero">
-        <!-- Carousel container with background images -->
-        <div class="hero-carousel">
-            <!-- ============================================
-                 HERO CAROUSEL IMAGES - REPLACE THESE URLS
-                 ============================================
-                 
-                 Instructions for adding your images:
-                 
-                 METHOD 1 - GitHub Raw URLs (if using GitHub Pages):
-                 Replace 'YOUR_GITHUB_USERNAME' and 'YOUR_REPO_NAME' with your actual GitHub info
-                 Example: https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/bigdrone_ornage.jpg
-                 
-                 METHOD 2 - Local file paths (if hosting elsewhere):
-                 Replace with relative paths like: './images/bigdrone_ornage.jpg'
-                 
-                 METHOD 3 - Full URLs (if images are hosted elsewhere):
-                 Replace with complete URLs like: 'https://your-domain.com/images/bigdrone_ornage.jpg'
-            -->
-            
-            <!-- SLIDE 1: Big Drone Orange Image -->
-            <!-- 🔄 REPLACE THIS URL ⬇️ -->
-            <div class="hero-slide active" style="background-image: url('https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/bigdrone_ornage.jpg')"></div>
-            
-            <!-- SLIDE 2: Sunset Ocean Image -->
-            <!-- 🔄 REPLACE THIS URL ⬇️ -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/mungaphisunset_ocen.jpg')"></div>
-            
-            <!-- SLIDE 3: 4357and Image -->
-            <!-- 🔄 REPLACE THIS URL ⬇️ -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/4357and.jpg')"></div>
-            
-            <!-- SLIDE 4: Truck Top Down Image -->
-            <!-- 🔄 REPLACE THIS URL ⬇️ -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/trucktopdown.jpg')"></div>
-            
-            <!-- 
-                 TO ADD MORE SLIDES:
-                 1. Copy one of the div blocks above
-                 2. Change the image URL
-                 3. Add a new indicator dot below (in the carousel-indicators section)
-                 4. Update the JavaScript totalSlides variable if needed
-            -->
-        </div>
-        
-        <!-- Hero text content -->
-        <div class="hero-content">
-            <h1>Jetty373</h1>
-            <p>FPV Drone Pilot & Electric Motorbike Builder</p>
-            <a href="#builds" class="cta-button">View My Builds</a>
-        </div>
-        
-        <!-- Carousel navigation dots -->
-        <div class="carousel-indicators">
-            <div class="indicator active" data-slide="0"></div>
-            <div class="indicator" data-slide="1"></div>
-            <div class="indicator" data-slide="2"></div>
-            <div class="indicator" data-slide="3"></div>
-        </div>
+        <h1>Jetty373</h1>
+        <p>FPV Drone Pilot & Electric Motorbike Builder</p>
+        <a href="#builds" class="cta-button">View My Builds</a>
     </section>
     
-    <!-- ========================================
-         ABOUT SECTION
-         ======================================== -->
+    <!-- About Section -->
     <section id="about" class="about">
         <div class="about-img">
             <img src="https://images.unsplash.com/photo-1523841589304-aa4a0d5437de?q=80&w=1974&auto=format&fit=crop" alt="About Me">
@@ -641,16 +444,13 @@
         </div>
     </section>
     
-    <!-- ========================================
-         BUILDS SECTION (FPV & SURRON)
-         ======================================== -->
+    <!-- FPV & Surron Section -->
     <section id="builds" class="builds">
         <div class="section-header">
             <h2>My Builds</h2>
             <p>Custom FPV drones and electric motorbike builds</p>
         </div>
         <div class="build-container">
-            <!-- FPV Drone Build -->
             <div class="build-item">
                 <div class="build-img">
                     <img src="https://images.unsplash.com/photo-1597424216809-3ba9864aefe0?q=80&w=1974&auto=format&fit=crop" alt="FPV Drone">
@@ -667,8 +467,6 @@
                     <p>Each build is carefully tuned for optimal flight characteristics using Betaflight configurator, with custom PID settings and motor configurations.</p>
                 </div>
             </div>
-            
-            <!-- Surron Electric Bike Build -->
             <div class="build-item">
                 <div class="build-img">
                     <img src="https://images.unsplash.com/photo-1558981852-426c6c22a060?q=80&w=2070&auto=format&fit=crop" alt="Surron Electric Bike">
@@ -689,16 +487,13 @@
         </div>
     </section>
     
-    <!-- ========================================
-         PROJECTS SECTION
-         ======================================== -->
+    <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="section-header">
             <h2>My Projects</h2>
             <p>A selection of my recent work</p>
         </div>
         <div class="project-grid">
-            <!-- Project 1: Aerial Photography -->
             <div class="project-card">
                 <div class="project-img">
                     <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=1980&auto=format&fit=crop" alt="Drone Photography">
@@ -708,8 +503,6 @@
                     <p>Breathtaking landscape shots captured using custom FPV drones with stabilized cameras.</p>
                 </div>
             </div>
-            
-            <!-- Project 2: Battery Upgrade -->
             <div class="project-card">
                 <div class="project-img">
                     <img src="https://images.unsplash.com/photo-1602576127398-cb3d95e746eb?q=80&w=1860&auto=format&fit=crop" alt="Electric Bike Mods">
@@ -719,8 +512,6 @@
                     <p>Custom battery pack design that extended range by 40% while maintaining the original form factor.</p>
                 </div>
             </div>
-            
-            <!-- Project 3: FPV Racing -->
             <div class="project-card">
                 <div class="project-img">
                     <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="Drone Racing">
@@ -730,8 +521,6 @@
                     <p>Participated in and organized local FPV drone racing events with custom-built race tracks.</p>
                 </div>
             </div>
-            
-            <!-- Project 4: 3D Printing -->
             <div class="project-card">
                 <div class="project-img">
                     <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop" alt="3D Printing">
@@ -744,40 +533,31 @@
         </div>
     </section>
     
-    <!-- ========================================
-         LINKS SECTION
-         ======================================== -->
+    <!-- Links Section -->
     <section id="links" class="links">
         <div class="section-header">
             <h2>Useful Links</h2>
             <p>Resources and connections</p>
         </div>
         <div class="links-grid">
-            <!-- YouTube Link Card -->
             <div class="link-card">
                 <i class="fab fa-youtube"></i>
                 <h3>YouTube Channel</h3>
                 <p>Check out my drone flights, Surron rides, and build tutorials.</p>
                 <a href="https://youtube.com/@jetty373" target="_blank">Visit Channel</a>
             </div>
-            
-            <!-- Instagram Link Card -->
             <div class="link-card">
                 <i class="fab fa-instagram"></i>
                 <h3>Instagram</h3>
                 <p>Follow my latest builds and adventures on Instagram.</p>
                 <a href="https://instagram.com/jetty373" target="_blank">Follow Me</a>
             </div>
-            
-            <!-- Discord Link Card -->
             <div class="link-card">
                 <i class="fab fa-discord"></i>
                 <h3>Discord Server</h3>
                 <p>Join our community of drone pilots and electric vehicle enthusiasts.</p>
                 <a href="https://discord.gg/S3zcMGEj" target="_blank">Join Server</a>
             </div>
-            
-            <!-- Gaming Link Card -->
             <div class="link-card">
                 <i class="fa-solid fa-gamepad"></i>
                 <h3>Games</h3>
@@ -787,9 +567,7 @@
         </div>
     </section>
     
-    <!-- ========================================
-         CONTACT SECTION
-         ======================================== -->
+    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="section-header">
             <h2>Get In Touch</h2>
@@ -818,9 +596,7 @@
         </div>
     </section>
     
-    <!-- ========================================
-         FOOTER SECTION
-         ======================================== -->
+    <!-- Footer -->
     <footer>
         <ul class="social-links">
             <li><a href="https://youtube.com/@jetty373" target="_blank"><i class="fab fa-youtube"></i></a></li>
@@ -831,309 +607,35 @@
         <p>&copy; 2025 Jetty373. All rights reserved.</p>
     </footer>
 
-    <!-- ========================================
-         JAVASCRIPT FUNCTIONALITY
-         ======================================== -->
     <script>
-        // ========================================
-        // HERO IMAGE CAROUSEL FUNCTIONALITY
-        // ========================================
-        
-        // Initialize carousel variables
-        let currentSlide = 0; // Track which slide is currently active
-        const slides = document.querySelectorAll('.hero-slide'); // Get all slide elements
-        const indicators = document.querySelectorAll('.indicator'); // Get all indicator dots
-        const totalSlides = slides.length; // Total number of slides
-        
-        /**
-         * Show a specific slide by index
-         * @param {number} index - The slide index to show (0-based)
-         */
-        function showSlide(index) {
-            // Remove active class from current slide and indicator
-            slides[currentSlide].classList.remove('active');
-            indicators[currentSlide].classList.remove('active');
-            
-            // Update current slide index
-            currentSlide = index;
-            
-            // Add active class to new slide and indicator
-            slides[currentSlide].classList.add('active');
-            indicators[currentSlide].classList.add('active');
-        }
-        
-        /**
-         * Advance to the next slide (loops back to first after last)
-         */
-        function nextSlide() {
-            const nextIndex = (currentSlide + 1) % totalSlides; // Calculate next index with wrap-around
-            showSlide(nextIndex);
-        }
-        
-        // Auto-advance slides every 5 seconds (5000 milliseconds)
-        const carouselInterval = setInterval(nextSlide, 5000);
-        
-        // Add click event listeners to indicator dots
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                // When user clicks a dot, clear auto-advance and show that slide
-                clearInterval(carouselInterval);
-                showSlide(index);
-                // Restart auto-advance after user interaction
-                setTimeout(() => {
-                    setInterval(nextSlide, 5000);
-                }, 5000);
-            });
-        });
-        
-        // ========================================
-        // NAVIGATION SCROLL EFFECTS
-        // ========================================
-        
-        /**
-         * Change navigation styling based on scroll position
-         */
+        // Simple navigation scroll effect
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
-            
-            // If scrolled down more than 50px, make nav more compact
             if (window.scrollY > 50) {
-                nav.style.padding = '1rem 5%'; // Smaller padding
-                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)'; // Add shadow
+                nav.style.padding = '1rem 5%';
+                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
             } else {
-                // When at top, use original larger padding and no shadow
                 nav.style.padding = '2rem 5%';
                 nav.style.boxShadow = 'none';
             }
         });
 
-        // ========================================
-        // SMOOTH SCROLLING FOR ANCHOR LINKS
-        // ========================================
-        
-        /**
-         * Add smooth scrolling behavior to all internal anchor links
-         */
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevent default jump behavior
+                e.preventDefault();
                 
-                // Get the target element ID from the href
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 
-                // If target element exists, scroll to it smoothly
                 if (targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Offset for fixed navigation
-                        behavior: 'smooth' // Smooth scrolling animation
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
-
-        // ========================================
-        // ADDITIONAL CAROUSEL FEATURES (Optional)
-        // ========================================
-        
-        /**
-         * Pause carousel on hover (uncomment to enable)
-         */
-        // const heroSection = document.querySelector('.hero');
-        // let isPaused = false;
-        // 
-        // heroSection.addEventListener('mouseenter', () => {
-        //     isPaused = true;
-        //     clearInterval(carouselInterval);
-        // });
-        // 
-        // heroSection.addEventListener('mouseleave', () => {
-        //     if (!isPaused) return;
-        //     isPaused = false;
-        //     setInterval(nextSlide, 5000);
-        // });
-
-        /**
-         * Keyboard navigation for carousel (uncomment to enable)
-         */
-        // document.addEventListener('keydown', (e) => {
-        //     if (e.key === 'ArrowLeft') {
-        //         const prevIndex = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
-        //         showSlide(prevIndex);
-        //     } else if (e.key === 'ArrowRight') {
-        //         nextSlide();
-        //     }
-        // });
-
-        // ========================================
-        // PERFORMANCE OPTIMIZATIONS
-        // ========================================
-        
-        /**
-         * Preload carousel images for better performance
-         * 
-         * 🔄 UPDATE THESE IMAGE URLS TO MATCH YOUR HERO CAROUSEL IMAGES ABOVE
-         */
-        function preloadCarouselImages() {
-            const imageUrls = [
-                // ⬇️ REPLACE THESE URLs WITH THE SAME ONES YOU USED IN THE HTML ABOVE ⬇️
-                'https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/bigdrone_ornage.jpg',
-                'https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/mungaphisunset_ocen.jpg',
-                'https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/4357and.jpg',
-                'https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/img_website_v2/trucktopdown.jpg'
-                // ⬆️ REPLACE THESE URLs WITH THE SAME ONES YOU USED IN THE HTML ABOVE ⬆️
-            ];
-            
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-            });
-        }
-        
-        // Call preload function when page loads
-        window.addEventListener('load', preloadCarouselImages);
-
-        // ========================================
-        // MOBILE RESPONSIVENESS ENHANCEMENTS
-        // ========================================
-        
-        /**
-         * Handle mobile menu toggle (if you want to add a hamburger menu later)
-         */
-        // function toggleMobileMenu() {
-        //     const navLinks = document.querySelector('.nav-links');
-        //     navLinks.classList.toggle('mobile-active');
-        // }
-
-        /**
-         * Adjust carousel timing for mobile devices
-         */
-        function adjustCarouselForMobile() {
-            if (window.innerWidth <= 768) {
-                // Slower transitions on mobile for better UX
-                const slides = document.querySelectorAll('.hero-slide');
-                slides.forEach(slide => {
-                    slide.style.transition = 'opacity 2s ease-in-out';
-                });
-            }
-        }
-        
-        // Call on load and resize
-        window.addEventListener('load', adjustCarouselForMobile);
-        window.addEventListener('resize', adjustCarouselForMobile);
-
-        // ========================================
-        // FORM HANDLING (Contact Form)
-        // ========================================
-        
-        /**
-         * Handle contact form submission
-         */
-        const contactForm = document.querySelector('.contact-form form');
-        
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-                
-                // Get form data
-                const formData = new FormData(this);
-                const name = formData.get('name') || document.getElementById('name').value;
-                const email = formData.get('email') || document.getElementById('email').value;
-                const subject = formData.get('subject') || document.getElementById('subject').value;
-                const message = formData.get('message') || document.getElementById('message').value;
-                
-                // Basic form validation
-                if (!name || !email || !message) {
-                    alert('Please fill in all required fields.');
-                    return;
-                }
-                
-                // Here you would typically send the form data to your server
-                // For now, we'll just show a success message
-                alert('Thank you for your message! I\'ll get back to you soon.');
-                
-                // Reset form
-                this.reset();
-                
-                // You can replace the alert with a more sophisticated notification system
-                // or integrate with services like Formspree, Netlify Forms, etc.
-            });
-        }
-
-        // ========================================
-        // INTERSECTION OBSERVER (Scroll Animations)
-        // ========================================
-        
-        /**
-         * Add scroll-triggered animations (uncomment to enable)
-         */
-        // const observerOptions = {
-        //     threshold: 0.1,
-        //     rootMargin: '0px 0px -50px 0px'
-        // };
-        // 
-        // const observer = new IntersectionObserver((entries) => {
-        //     entries.forEach(entry => {
-        //         if (entry.isIntersecting) {
-        //             entry.target.classList.add('animate-in');
-        //         }
-        //     });
-        // }, observerOptions);
-        // 
-        // // Observe sections for scroll animations
-        // document.querySelectorAll('section').forEach(section => {
-        //     observer.observe(section);
-        // });
-
-        // ========================================
-        // UTILITY FUNCTIONS
-        // ========================================
-        
-        /**
-         * Debounce function for performance optimization
-         */
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-        
-        /**
-         * Throttle function for scroll events
-         */
-        function throttle(func, limit) {
-            let inThrottle;
-            return function() {
-                const args = arguments;
-                const context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(() => inThrottle = false, limit);
-                }
-            }
-        }
-
-        // ========================================
-        // CONSOLE LOG FOR DEBUGGING
-        // ========================================
-        
-        // Log when carousel is initialized
-        console.log('Jetty373 Website Loaded Successfully!');
-        console.log(`Carousel initialized with ${totalSlides} slides`);
-        
-        // Log current slide changes (helpful for debugging)
-        const originalShowSlide = showSlide;
-        showSlide = function(index) {
-            console.log(`Switching to slide ${index + 1} of ${totalSlides}`);
-            originalShowSlide(index);
-        };
     </script>
 </body>
 </html>
