@@ -1,120 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Jetty373</title>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDV0BajS19_2QlTP7V7NlMdSYUeYBVsXNQ",
+    authDomain: "jetty373auth.firebaseapp.com",
+    projectId: "jetty373auth",
+    storageBucket: "jetty373auth.appspot.com",
+    messagingSenderId: "328185729230",
+    appId: "1:328185729230:web:ddf10eb9fe7bf20a83c09f",
+    measurementId: "G-G6MTXSB8J0"
+  };
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #ff6b00;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover {
-      background-color: #e55f00;
-    }
-    .message {
-      text-align: center;
-      color: green;
-      font-weight: bold;
-    }
-    .error {
-      color: red;
-    }
-  </style>
-</head>
-<body>
-  <div class="login-container">
-    <h2>Jetty373 Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Log In</button>
-    <button onclick="goToSignup()">Sign Up</button>
-    <p class="message" id="message"></p>
-  </div>
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDV0BajS19_2QlTP7V7NlMdSYUeYBVsXNQ",
-      authDomain: "jetty373auth.firebaseapp.com",
-      projectId: "jetty373auth",
-      storageBucket: "jetty373auth.appspot.com",
-      messagingSenderId: "328185729230",
-      appId: "1:328185729230:web:ddf10eb9fe7bf20a83c09f",
-      measurementId: "G-G6MTXSB8J0"
-    };
+  function login() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function isValidEmail(email) {
-      return /\S+@\S+\.\S+/.test(email);
+    if (!isValidEmail(email)) {
+      document.getElementById("message").textContent = "Please enter a valid email.";
+      document.getElementById("message").classList.add("error");
+      return;
     }
 
-    function login() {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
 
-      if (!isValidEmail(email)) {
-        document.getElementById("message").textContent = "Please enter a valid email.";
+        // 🔁 REDIRECT based on user email
+        if (user.email === "admin@example.com") {
+          window.location.href = "admin.html";
+        } else if (user.email === "craig@example.com") {
+          window.location.href = "craig_dashboard.html";
+        } else {
+          window.location.href = "user.html"; // default user page
+        }
+      })
+      .catch(err => {
+        document.getElementById("message").textContent = err.message;
         document.getElementById("message").classList.add("error");
-        return;
-      }
+      });
+  }
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          document.getElementById("message").textContent = "✅ Login successful!";
-          document.getElementById("message").classList.remove("error");
-        })
-        .catch(err => {
-          document.getElementById("message").textContent = err.message;
-          document.getElementById("message").classList.add("error");
-        });
-    }
-
-    function goToSignup() {
-      window.location.href = "signup.html";
-    }
-  </script>
-</body>
-</html>
+  function goToSignup() {
+    window.location.href = "signup.html";
+  }
+</script>
