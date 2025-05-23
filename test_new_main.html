@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <!-- Firebase App (Core SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
-    <!-- Firebase Auth -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
-
-    <script>
-      // Paste your actual config here
+ <head>
+  <!-- Firebase App (Core SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js">
+  </script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js">
+  </script>
+  <script>
+   // Paste your actual config here
       const firebaseConfig = {
         apiKey: "AIza...",
         authDomain: "your-project.firebaseapp.com",
@@ -20,14 +20,14 @@
       
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-    </script>
-
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jetty373 - FPV Drone Pilot & Electric Motorbike Builder</title>
-    <style>
-        /* ========================================
+  </script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Jetty373 - FPV Drone Pilot &amp; Electric Motorbike Builder
+  </title>
+  <style>
+   /* ========================================
            RESET AND BASE STYLES
            ======================================== */
         * {
@@ -566,41 +566,76 @@
            ======================================== */
         /* Import Font Awesome for social media icons */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-    </style>
-</head>
-<body>
-    
-    <div id="auth-container">
-      <h2>Login</h2>
-      <input type="email" id="email" placeholder="Email" />
-      <input type="password" id="password" placeholder="Password" />
-      <button onclick="login()">Log In</button>
-      <button onclick="signup()">Sign Up</button>
-      <p id="auth-status"></p>
-    </div>
-
-    <!-- ========================================
+  </style>
+ </head>
+ <body>
+  <div id="auth-container">
+   <h2>
+    Login
+   </h2>
+   <input id="email" placeholder="Email" type="email"/>
+   <input id="password" placeholder="Password" type="password"/>
+   <button onclick="login()">
+    Log In
+   </button>
+   <button onclick="signup()">
+    Sign Up
+   </button>
+   <p id="auth-status">
+   </p>
+  </div>
+  <!-- ========================================
          NAVIGATION BAR
          ======================================== -->
-    <nav>
-        <div class="logo">JETTY373</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#builds">FPV & Surron</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#links">Links</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-    
-    <!-- ========================================
+  <nav>
+   <div class="logo">
+    JETTY373
+   </div>
+   <ul class="nav-links">
+    <li>
+     <a href="#home">
+      Home
+     </a>
+    </li>
+    <li>
+     <a href="#about">
+      About
+     </a>
+    </li>
+    <li>
+     <a href="#builds">
+      FPV &amp; Surron
+     </a>
+    </li>
+    <li>
+     <a href="#projects">
+      Projects
+     </a>
+    </li>
+    <li>
+     <a href="#links">
+      Links
+     </a>
+    </li>
+    <li>
+     <a href="#contact">
+      Contact
+     </a>
+    </li>
+   </ul>
+   <div style="margin-left:auto">
+    <a href="login.html" id="login-link" target="_blank">
+     Login
+    </a>
+   </div>
+  </nav>
+  <!-- ========================================
          HERO SECTION WITH IMAGE CAROUSEL
          ======================================== -->
-    <section id="home" class="hero">
-        <!-- Carousel container with background images -->
-        <div class="hero-carousel">
-            <!-- ============================================
+  <section class="hero" id="home">
+   <!-- Carousel container with background images -->
+   <div class="hero-carousel">
+    <!-- ============================================
                  HERO CAROUSEL IMAGES - REPLACE THESE URLS
                  ============================================
                  
@@ -616,255 +651,377 @@
                  METHOD 3 - Full URLs (if images are hosted elsewhere):
                  Replace with complete URLs like: 'https://your-domain.com/images/bigdrone_ornage.jpg'
             -->
-
-            <!-- SLIDE 1: Mungaphi Sunset Ocean Image (NOW FIRST) -->
-            <div class="hero-slide active" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_mungaphisunset_ocean.webp')"></div>
-            
-            <!-- SLIDE 2: Big Drone Orange Image -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_bigdrone_orange%20(2).webp')"></div>
-            
-            <!-- SLIDE 3: 4357and Image -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/IMG_4357.webp')"></div>
-            
-            <!-- SLIDE 4: Truck Top Down Image -->
-            <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_trucktopdown.webp')"></div>
-
-            <!-- 
+    <!-- SLIDE 1: Mungaphi Sunset Ocean Image (NOW FIRST) -->
+    <div class="hero-slide active" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_mungaphisunset_ocean.webp')">
+    </div>
+    <!-- SLIDE 2: Big Drone Orange Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_bigdrone_orange%20(2).webp')">
+    </div>
+    <!-- SLIDE 3: 4357and Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/IMG_4357.webp')">
+    </div>
+    <!-- SLIDE 4: Truck Top Down Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_trucktopdown.webp')">
+    </div>
+    <!-- 
                  TO ADD MORE SLIDES:
                  1. Copy one of the div blocks above
                  2. Change the image URL
                  3. Add a new indicator dot below (in the carousel-indicators section)
                  4. Update the JavaScript totalSlides variable if needed
             -->
-        </div>
-        
-        <!-- Hero text content -->
-        <div class="hero-content">
-            <h1>Jetty373</h1>
-            <p>FPV Drone Pilot & Electric Motorbike Builder</p>
-            <a href="#builds" class="cta-button">View My Builds</a>
-        </div>
-        
-        <!-- Carousel navigation dots -->
-        <div class="carousel-indicators">
-            <div class="indicator active" data-slide="0"></div>
-            <div class="indicator" data-slide="1"></div>
-            <div class="indicator" data-slide="2"></div>
-            <div class="indicator" data-slide="3"></div>
-        </div>
-
-    </section>
-    
-    <!-- ========================================
+   </div>
+   <!-- Hero text content -->
+   <div class="hero-content">
+    <h1>
+     Jetty373
+    </h1>
+    <p>
+     FPV Drone Pilot &amp; Electric Motorbike Builder
+    </p>
+    <a class="cta-button" href="#builds">
+     View My Builds
+    </a>
+   </div>
+   <!-- Carousel navigation dots -->
+   <div class="carousel-indicators">
+    <div class="indicator active" data-slide="0">
+    </div>
+    <div class="indicator" data-slide="1">
+    </div>
+    <div class="indicator" data-slide="2">
+    </div>
+    <div class="indicator" data-slide="3">
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
          ABOUT SECTION
          ======================================== -->
-    <section id="about" class="about">
-        <div class="about-img">
-            <img src="https://images.unsplash.com/photo-1523841589304-aa4a0d5437de?q=80&w=1974&auto=format&fit=crop" alt="About Me">
-        </div>
-        <div class="about-content">
-            <h2>About Me</h2>
-            <p>Welcome to my personal space! I'm passionate about FPV drone flying and custom electric vehicle builds. My journey started with a simple interest in remote-controlled aircraft and has evolved into designing and building high-performance FPV drones and modifying electric vehicles like my custom Surron.</p>
-            <p>I enjoy pushing the boundaries of what's possible with modern electric technology, whether it's capturing breathtaking aerial footage or optimizing my Surron for both off-road performance and street use.</p>
-            <p>When I'm not flying drones or riding, I'm constantly researching new components, techniques, and innovations in the electric vehicle space. This website showcases my builds, projects, and provides links to resources I find valuable.</p>
-        </div>
-    </section>
-    
-    <!-- ========================================
+  <section class="about" id="about">
+   <div class="about-img">
+    <img alt="About Me" src="https://images.unsplash.com/photo-1523841589304-aa4a0d5437de?q=80&amp;w=1974&amp;auto=format&amp;fit=crop"/>
+   </div>
+   <div class="about-content">
+    <h2>
+     About Me
+    </h2>
+    <p>
+     Welcome to my personal space! I'm passionate about FPV drone flying and custom electric vehicle builds. My journey started with a simple interest in remote-controlled aircraft and has evolved into designing and building high-performance FPV drones and modifying electric vehicles like my custom Surron.
+    </p>
+    <p>
+     I enjoy pushing the boundaries of what's possible with modern electric technology, whether it's capturing breathtaking aerial footage or optimizing my Surron for both off-road performance and street use.
+    </p>
+    <p>
+     When I'm not flying drones or riding, I'm constantly researching new components, techniques, and innovations in the electric vehicle space. This website showcases my builds, projects, and provides links to resources I find valuable.
+    </p>
+   </div>
+  </section>
+  <!-- ========================================
          BUILDS SECTION (FPV & SURRON)
          ======================================== -->
-    <section id="builds" class="builds">
-        <div class="section-header">
-            <h2>My Builds</h2>
-            <p>Custom FPV drones and electric motorbike builds</p>
-        </div>
-        <div class="build-container">
-            <!-- FPV Drone Build -->
-            <div class="build-item">
-                <div class="build-img">
-                    <img src="https://images.unsplash.com/photo-1597424216809-3ba9864aefe0?q=80&w=1974&auto=format&fit=crop" alt="FPV Drone">
-                </div>
-                <div class="build-content">
-                    <h3>FPV Drone Builds</h3>
-                    <p>I specialize in building custom FPV (First Person View) drones optimized for different flight characteristics and applications.</p>
-                    <ul>
-                        <li>5" Freestyle Quad with DJI Digital FPV System</li>
-                        <li>3" Cinewhoop for indoor cinematography</li>
-                        <li>7" Long Range Explorer with GPS return-to-home</li>
-                        <li>Custom 3D printed parts and frames</li>
-                    </ul>
-                    <p>Each build is carefully tuned for optimal flight characteristics using Betaflight configurator, with custom PID settings and motor configurations.</p>
-                </div>
-            </div>
-            
-            <!-- Surron Electric Bike Build -->
-            <div class="build-item">
-                <div class="build-img">
-                    <img src="https://images.unsplash.com/photo-1558981852-426c6c22a060?q=80&w=2070&auto=format&fit=crop" alt="Surron Electric Bike">
-                </div>
-                <div class="build-content">
-                    <h3>Surron Electric Motorbike</h3>
-                    <p>My custom-built Surron has been modified for enhanced performance both on and off-road.</p>
-                    <ul>
-                        <li>Upgraded controller for increased power output</li>
-                        <li>Custom battery configuration for extended range</li>
-                        <li>Reinforced suspension for aggressive trail riding</li>
-                        <li>Upgraded braking system for better stopping power</li>
-                        <li>Street-legal conversion kit with turn signals and headlight</li>
-                    </ul>
-                    <p>The Surron offers an incredible balance of power, agility, and range, making it perfect for both trail adventures and urban commuting.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- ========================================
+  <section class="builds" id="builds">
+   <div class="section-header">
+    <h2>
+     My Builds
+    </h2>
+    <p>
+     Custom FPV drones and electric motorbike builds
+    </p>
+   </div>
+   <div class="build-container">
+    <!-- FPV Drone Build -->
+    <div class="build-item">
+     <div class="build-img">
+      <img alt="FPV Drone" src="https://images.unsplash.com/photo-1597424216809-3ba9864aefe0?q=80&amp;w=1974&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="build-content">
+      <h3>
+       FPV Drone Builds
+      </h3>
+      <p>
+       I specialize in building custom FPV (First Person View) drones optimized for different flight characteristics and applications.
+      </p>
+      <ul>
+       <li>
+        5" Freestyle Quad with DJI Digital FPV System
+       </li>
+       <li>
+        3" Cinewhoop for indoor cinematography
+       </li>
+       <li>
+        7" Long Range Explorer with GPS return-to-home
+       </li>
+       <li>
+        Custom 3D printed parts and frames
+       </li>
+      </ul>
+      <p>
+       Each build is carefully tuned for optimal flight characteristics using Betaflight configurator, with custom PID settings and motor configurations.
+      </p>
+     </div>
+    </div>
+    <!-- Surron Electric Bike Build -->
+    <div class="build-item">
+     <div class="build-img">
+      <img alt="Surron Electric Bike" src="https://images.unsplash.com/photo-1558981852-426c6c22a060?q=80&amp;w=2070&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="build-content">
+      <h3>
+       Surron Electric Motorbike
+      </h3>
+      <p>
+       My custom-built Surron has been modified for enhanced performance both on and off-road.
+      </p>
+      <ul>
+       <li>
+        Upgraded controller for increased power output
+       </li>
+       <li>
+        Custom battery configuration for extended range
+       </li>
+       <li>
+        Reinforced suspension for aggressive trail riding
+       </li>
+       <li>
+        Upgraded braking system for better stopping power
+       </li>
+       <li>
+        Street-legal conversion kit with turn signals and headlight
+       </li>
+      </ul>
+      <p>
+       The Surron offers an incredible balance of power, agility, and range, making it perfect for both trail adventures and urban commuting.
+      </p>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
          PROJECTS SECTION
          ======================================== -->
-    <section id="projects" class="projects">
-        <div class="section-header">
-            <h2>My Projects</h2>
-            <p>A selection of my recent work</p>
-        </div>
-        <div class="project-grid">
-            <!-- Project 1: Aerial Photography -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=1980&auto=format&fit=crop" alt="Drone Photography">
-                </div>
-                <div class="project-content">
-                    <h3>Aerial Photography</h3>
-                    <p>Breathtaking landscape shots captured using custom FPV drones with stabilized cameras.</p>
-                </div>
-            </div>
-            
-            <!-- Project 2: Battery Upgrade -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="https://images.unsplash.com/photo-1602576127398-cb3d95e746eb?q=80&w=1860&auto=format&fit=crop" alt="Electric Bike Mods">
-                </div>
-                <div class="project-content">
-                    <h3>Surron Battery Upgrade</h3>
-                    <p>Custom battery pack design that extended range by 40% while maintaining the original form factor.</p>
-                </div>
-            </div>
-            
-            <!-- Project 3: FPV Racing -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="Drone Racing">
-                </div>
-                <div class="project-content">
-                    <h3>FPV Race Events</h3>
-                    <p>Participated in and organized local FPV drone racing events with custom-built race tracks.</p>
-                </div>
-            </div>
-            
-            <!-- Project 4: 3D Printing -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop" alt="3D Printing">
-                </div>
-                <div class="project-content">
-                    <h3>3D Printed Drone Parts</h3>
-                    <p>Custom designed and printed drone frames, camera mounts, and protective components.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- ========================================
+  <section class="projects" id="projects">
+   <div class="section-header">
+    <h2>
+     My Projects
+    </h2>
+    <p>
+     A selection of my recent work
+    </p>
+   </div>
+   <div class="project-grid">
+    <!-- Project 1: Aerial Photography -->
+    <div class="project-card">
+     <div class="project-img">
+      <img alt="Drone Photography" src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&amp;w=1980&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="project-content">
+      <h3>
+       Aerial Photography
+      </h3>
+      <p>
+       Breathtaking landscape shots captured using custom FPV drones with stabilized cameras.
+      </p>
+     </div>
+    </div>
+    <!-- Project 2: Battery Upgrade -->
+    <div class="project-card">
+     <div class="project-img">
+      <img alt="Electric Bike Mods" src="https://images.unsplash.com/photo-1602576127398-cb3d95e746eb?q=80&amp;w=1860&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="project-content">
+      <h3>
+       Surron Battery Upgrade
+      </h3>
+      <p>
+       Custom battery pack design that extended range by 40% while maintaining the original form factor.
+      </p>
+     </div>
+    </div>
+    <!-- Project 3: FPV Racing -->
+    <div class="project-card">
+     <div class="project-img">
+      <img alt="Drone Racing" src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&amp;w=2070&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="project-content">
+      <h3>
+       FPV Race Events
+      </h3>
+      <p>
+       Participated in and organized local FPV drone racing events with custom-built race tracks.
+      </p>
+     </div>
+    </div>
+    <!-- Project 4: 3D Printing -->
+    <div class="project-card">
+     <div class="project-img">
+      <img alt="3D Printing" src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&amp;w=2070&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="project-content">
+      <h3>
+       3D Printed Drone Parts
+      </h3>
+      <p>
+       Custom designed and printed drone frames, camera mounts, and protective components.
+      </p>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
          LINKS SECTION
          ======================================== -->
-    <section id="links" class="links">
-        <div class="section-header">
-            <h2>Useful Links</h2>
-            <p>Resources and connections</p>
-        </div>
-        <div class="links-grid">
-            <!-- YouTube Link Card -->
-            <div class="link-card">
-                <i class="fab fa-youtube"></i>
-                <h3>YouTube Channel</h3>
-                <p>Check out my drone flights, Surron rides, and build tutorials.</p>
-                <a href="https://youtube.com/@jetty373" target="_blank">Visit Channel</a>
-            </div>
-            
-            <!-- Instagram Link Card -->
-            <div class="link-card">
-                <i class="fab fa-instagram"></i>
-                <h3>Instagram</h3>
-                <p>Follow my latest builds and adventures on Instagram.</p>
-                <a href="https://instagram.com/jetty373" target="_blank">Follow Me</a>
-            </div>
-            
-            <!-- Discord Link Card -->
-            <div class="link-card">
-                <i class="fab fa-discord"></i>
-                <h3>Discord Server</h3>
-                <p>Join our community of drone pilots and electric vehicle enthusiasts.</p>
-                <a href="https://discord.gg/S3zcMGEj" target="_blank">Join Server</a>
-            </div>
-            
-            <!-- Gaming Link Card -->
-            <div class="link-card">
-                <i class="fa-solid fa-gamepad"></i>
-                <h3>Games</h3>
-                <p>Connect with me for gaming sessions and virtual hangouts.</p>
-                <a href="https://steamcommunity.com/id/jetty373" target="_blank">Steam Profile</a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- ========================================
+  <section class="links" id="links">
+   <div class="section-header">
+    <h2>
+     Useful Links
+    </h2>
+    <p>
+     Resources and connections
+    </p>
+   </div>
+   <div class="links-grid">
+    <!-- YouTube Link Card -->
+    <div class="link-card">
+     <i class="fab fa-youtube">
+     </i>
+     <h3>
+      YouTube Channel
+     </h3>
+     <p>
+      Check out my drone flights, Surron rides, and build tutorials.
+     </p>
+     <a href="https://youtube.com/@jetty373" target="_blank">
+      Visit Channel
+     </a>
+    </div>
+    <!-- Instagram Link Card -->
+    <div class="link-card">
+     <i class="fab fa-instagram">
+     </i>
+     <h3>
+      Instagram
+     </h3>
+     <p>
+      Follow my latest builds and adventures on Instagram.
+     </p>
+     <a href="https://instagram.com/jetty373" target="_blank">
+      Follow Me
+     </a>
+    </div>
+    <!-- Discord Link Card -->
+    <div class="link-card">
+     <i class="fab fa-discord">
+     </i>
+     <h3>
+      Discord Server
+     </h3>
+     <p>
+      Join our community of drone pilots and electric vehicle enthusiasts.
+     </p>
+     <a href="https://discord.gg/S3zcMGEj" target="_blank">
+      Join Server
+     </a>
+    </div>
+    <!-- Gaming Link Card -->
+    <div class="link-card">
+     <i class="fa-solid fa-gamepad">
+     </i>
+     <h3>
+      Games
+     </h3>
+     <p>
+      Connect with me for gaming sessions and virtual hangouts.
+     </p>
+     <a href="https://steamcommunity.com/id/jetty373" target="_blank">
+      Steam Profile
+     </a>
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
          CONTACT SECTION
          ======================================== -->
-    <section id="contact" class="contact">
-        <div class="section-header">
-            <h2>Get In Touch</h2>
-            <p>Have questions about FPV drones or Surron builds?</p>
-        </div>
-        <div class="contact-form">
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject">
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" required></textarea>
-                </div>
-                <button type="submit" class="submit-button">Send Message</button>
-            </form>
-        </div>
-    </section>
-    
-    <!-- ========================================
+  <section class="contact" id="contact">
+   <div class="section-header">
+    <h2>
+     Get In Touch
+    </h2>
+    <p>
+     Have questions about FPV drones or Surron builds?
+    </p>
+   </div>
+   <div class="contact-form">
+    <form>
+     <div class="form-group">
+      <label for="name">
+       Name
+      </label>
+      <input id="name" required="" type="text"/>
+     </div>
+     <div class="form-group">
+      <label for="email">
+       Email
+      </label>
+      <input id="email" required="" type="email"/>
+     </div>
+     <div class="form-group">
+      <label for="subject">
+       Subject
+      </label>
+      <input id="subject" type="text"/>
+     </div>
+     <div class="form-group">
+      <label for="message">
+       Message
+      </label>
+      <textarea id="message" required=""></textarea>
+     </div>
+     <button class="submit-button" type="submit">
+      Send Message
+     </button>
+    </form>
+   </div>
+  </section>
+  <!-- ========================================
          FOOTER SECTION
          ======================================== -->
-    <footer>
-        <ul class="social-links">
-            <li><a href="https://youtube.com/@jetty373" target="_blank"><i class="fab fa-youtube"></i></a></li>
-            <li><a href="https://instagram.com/jetty373" target="_blank"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="https://discord.gg/S3zcMGEj" target="_blank"><i class="fab fa-discord"></i></a></li>
-            <li><a href="https://steamcommunity.com/id/jetty373" target="_blank"><i class="fab fa-steam"></i></a></li>
-        </ul>
-        <p>&copy; 2025 Jetty373. All rights reserved.</p>
-    </footer>
-
-    <!-- ========================================
+  <footer>
+   <ul class="social-links">
+    <li>
+     <a href="https://youtube.com/@jetty373" target="_blank">
+      <i class="fab fa-youtube">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://instagram.com/jetty373" target="_blank">
+      <i class="fab fa-instagram">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://discord.gg/S3zcMGEj" target="_blank">
+      <i class="fab fa-discord">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://steamcommunity.com/id/jetty373" target="_blank">
+      <i class="fab fa-steam">
+      </i>
+     </a>
+    </li>
+   </ul>
+   <p>
+    © 2025 Jetty373. All rights reserved.
+   </p>
+  </footer>
+  <!-- ========================================
          JAVASCRIPT FUNCTIONALITY
          ======================================== -->
-    <script>
-        // ========================================
+  <script>
+   // ========================================
         // HERO IMAGE CAROUSEL FUNCTIONALITY
         // ========================================
         
@@ -1199,20 +1356,42 @@
           document.getElementById("auth-status").textContent = `Logged in as ${user.email}`;
         }
       });
-    </script>
-
-    <button onclick="logout()">Log Out</button>
-    
-    <script>
-      function logout() {
+  </script>
+  <button onclick="logout()">
+   Log Out
+  </button>
+  <script>
+   function logout() {
         firebase.auth().signOut().then(() => {
           document.getElementById("auth-status").textContent = "Logged out";
         });
       }
-    </script>
-    
-
-        
-    </script>
-</body>
+  </script>
+  <section id="login-page" style="padding: 100px 10%; display: none;">
+   <h2>
+    Login Page
+   </h2>
+   <input id="email" placeholder="Email" type="email"/>
+   <input id="password" placeholder="Password" type="password"/>
+   <button onclick="login()">
+    Log In
+   </button>
+   <button onclick="signup()">
+    Sign Up
+   </button>
+   <p id="auth-status">
+   </p>
+  </section>
+  <section id="success-page" style="padding: 100px 10%; display: none;">
+   <h2>
+    Login Successful
+   </h2>
+   <p>
+    Welcome! You have successfully logged in.
+   </p>
+   <button onclick="logout()">
+    Log Out
+   </button>
+  </section>
+ </body>
 </html>
