@@ -74,14 +74,18 @@
   </div>
 
   <script>
+    // ✅ Only keep this real Firebase config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyDV0BajS19_2QlTP7V7NlMdSYUeYBVsXNQ",
+      authDomain: "jetty373auth.firebaseapp.com",
+      projectId: "jetty373auth",
+      storageBucket: "jetty373auth.appspot.com",
+      messagingSenderId: "328185729230",
+      appId: "1:328185729230:web:ddf10eb9fe7bf20a83c09f",
+      measurementId: "G-G6MTXSB8J0"
     };
+
+    // ✅ Initialize using compat
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -104,7 +108,7 @@
       const password = document.getElementById("password").value;
       auth.createUserWithEmailAndPassword(email, password)
         .then(() => {
-          document.getElementById("message").textContent = "🎉 Signup successful! You are now logged in.";
+          document.getElementById("message").textContent = "🎉 Signup successful!";
           document.getElementById("message").classList.remove("error");
         })
         .catch(err => {
