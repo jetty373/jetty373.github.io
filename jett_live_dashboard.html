@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live System Dashboard - Jetty373</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef7fd;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 {
+      color: #005f99;
+      font-size: 2.5rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .card h2 {
+      color: #0077cc;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 1.25rem;
+      margin: 0.5rem 0 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔍 Your System Stats</h1>
+    <p>Jetty373 Dashboard — live specs from your device</p>
+  </header>
+
+  <section class="stats-grid">
+    <div class="card">
+      <h2>Platform</h2>
+      <p id="platform">Loading...</p>
+    </div>
+    <div class="card">
+      <h2>Browser</h2>
+      <p id="browser">Loading...</p>
+    </div>
+    <div class="card">
+      <h2>CPU Cores</h2>
+      <p id="cpu">Loading...</p>
+    </div>
+    <div class="card">
+      <h2>RAM (GB)</h2>
+      <p id="ram">Loading...</p>
+    </div>
+    <div class="card">
+      <h2>Screen</h2>
+      <p id="screen">Loading...</p>
+    </div>
+    <div class="card">
+      <h2>GPU</h2>
+      <p id="gpu">Loading...</p>
+    </div>
+  </section>
+
+  <footer>
+    Jetty373 © 2025 | Live data from your browser
+  </footer>
+
+  <script>
+    document.getElementById('platform').textContent = navigator.platform;
+    document.getElementById('browser').textContent = navigator.userAgent;
+    document.getElementById('cpu').textContent = navigator.hardwareConcurrency || 'N/A';
+    document.getElementById('ram').textContent = navigator.deviceMemory || 'Unknown';
+    document.getElementById('screen').textContent = window.screen.width + ' x ' + window.screen.height;
+
+    function getGPUInfo() {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        const gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        return gpu;
+      } catch (e) {
+        return 'Unavailable';
+      }
+    }
+
+    document.getElementById('gpu').textContent = getGPUInfo();
+  </script>
+</body>
+</html>
