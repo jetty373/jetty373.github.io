@@ -1,26 +1,1428 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Counter</title>
-</head>
-<body>
-    <h1>Page View Counter</h1>
-    <p>This page has been visited <span id="count">...</span> times.</p>
+ <head>
+  <!-- Firebase App (Core SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js">
+  </script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js">
+  </script>
+  <script>
+   // Paste your actual config here
+      const firebaseConfig = {
+        apiKey: "AIza...",
+        authDomain: "your-project.firebaseapp.com",
+        projectId: "your-project-id",
+        storageBucket: "your-project.appspot.com",
+        messagingSenderId: "1234567890",
+        appId: "1:1234567890:web:abcdef123456"
+      };
+      
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+  </script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Jetty373 - FPV Drone Pilot &amp; Electric Motorbike Builder
+  </title>
+  <style>
+   /* ========================================
+           RESET AND BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .project-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+           gap: 2rem;
+           margin-top: 2rem;
+         }
+         
+         .project-card {
+           text-decoration: none;
+           background: white;
+           border-radius: 10px;
+           overflow: hidden;
+           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+           transition: transform 0.3s;
+           color: #333;
+         }
+         
+         .project-card:hover {
+           transform: translateY(-5px);
+         }
+         
+         .project-img img {
+           width: 100%;
+           height: auto;
+           display: block;
+         }
+         
+         .project-content {
+           padding: 1rem;
+         }
+         
+         .project-content h3 {
+           margin: 0 0 0.5rem;
+           color: #0077cc;
+         }
+         
+         .project-content p {
+           font-size: 0.95rem;
+           color: #666;
+         }
+
+   
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* ========================================
+           NAVIGATION STYLES
+           ======================================== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000; /* Keep nav above everything */
+            background-color: rgba(249, 249, 249, 0.95);
+            transition: all 0.3s ease;
+        }
+        
+        /* Logo styling */
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        
+        /* Navigation links container */
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        /* Navigation link styling with hover effects */
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #777;
+        }
+        
+        /* ========================================
+           HERO SECTION WITH IMAGE CAROUSEL
+           ======================================== */
+        .hero {
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 10%;
+            position: relative;
+            color: #fff;
+            overflow: hidden; /* Prevent image overflow */
+        }
+        
+        /* Carousel container - holds all background images */
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind content but above body */
+        }
+        
+        /* Individual slide styling - each background image */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 1.5s ease-in-out; /* Smooth fade transition */
+            background-size: cover; /* Cover entire area */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat;
+        }
+        
+        /* Active slide is visible */
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        /* Dark overlay for better text readability */
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+            z-index: 1;
+        }
+        
+        /* Hero content container - ensures text is above overlay */
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Above overlay */
+        }
+        
+        /* Main hero heading */
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for readability */
+        }
+        
+        /* Hero description text */
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Call-to-action button */
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #ff6b00; /* Orange brand color */
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 2px;
+            transition: background-color 0.3s ease;
+            text-shadow: none; /* No shadow on button text */
+        }
+        
+        .cta-button:hover {
+            background-color: #e55f00; /* Darker orange on hover */
+        }
+        
+        /* ========================================
+           CAROUSEL INDICATOR DOTS
+           ======================================== */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px; /* Distance from bottom */
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            display: flex;
+            gap: 10px;
+            z-index: 3; /* Above everything else */
+        }
+        
+        /* Individual indicator dot */
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%; /* Make it circular */
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Active indicator styling */
+        .indicator.active {
+            background-color: #ff6b00; /* Orange when active */
+        }
+        
+        /* ========================================
+           ABOUT SECTION
+           ======================================== */
+        .about {
+            padding: 6rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        /* About section image container */
+        .about-img {
+            width: 100%;
+            height: 500px;
+            background-color: #ddd; /* Fallback color */
+            overflow: hidden;
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        
+        /* About section text styling */
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* ========================================
+           PROJECTS SECTION
+           ======================================== */
+        .projects {
+            padding: 6rem 10%;
+            background-color: #fff;
+        }
+        
+        /* Centered section headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Project cards grid layout */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 2rem;
+        }
+        
+        /* Individual project card */
+        .project-card {
+            background-color: #f9f9f9;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Hover effect for project cards */
+        .project-card:hover {
+            transform: translateY(-10px); /* Lift up on hover */
+        }
+        
+        /* Project image container */
+        .project-img {img_website_v2/ebeast.webp} 
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Image zoom effect on hover */
+        .project-card:hover .project-img img {
+            transform: scale(1.05);
+        }
+        
+        /* Project text content */
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-content h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ========================================
+           LINKS SECTION
+           ======================================== */
+        .links {
+            padding: 6rem 10%;
+            background-color: #f2f2f2;
+        }
+        
+        /* Links grid layout */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Individual link card */
+        .link-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Link card icons */
+        .link-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ff6b00; /* Orange brand color */
+        }
+        
+        .link-card h3 {
+            margin-bottom: 1rem;
+        }
+        
+        /* Link card buttons */
+        .link-card a {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background-color: #ff6b00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .link-card a:hover {
+            background-color: #e55f00;
+        }
+        
+        /* ========================================
+           BUILDS SECTION (FPV & SURRON)
+           ======================================== */
+        .builds {
+            padding: 6rem 10%;
+        }
+        
+        /* Build items container */
+        .build-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns */
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+        
+        /* Individual build item */
+        .build-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Build image container */
+        .build-img {
+            height: 350px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+        }
+        
+        .build-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Build content text */
+        .build-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .build-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .build-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ========================================
+           CONTACT SECTION
+           ======================================== */
+        .contact {
+            padding: 6rem 10%;
+            background-color: #333; /* Dark background */
+            color: #fff;
+        }
+        
+        .contact .section-header {
+            color: #fff;
+        }
+        
+        /* Contact form container */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Form input groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Form inputs and textarea */
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 2px;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical; /* Allow vertical resizing only */
+        }
+        
+        /* Form submit button */
+        .submit-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #ff6b00;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background-color: #e55f00;
+        }
+        
+        /* ========================================
+           FOOTER SECTION
+           ======================================== */
+        footer {
+            padding: 3rem 10%;
+            text-align: center;
+            background-color: #222; /* Darker than contact section */
+            color: #fff;
+        }
+        
+        /* Social media links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links li {
+            margin: 0 1rem;
+        }
+        
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #ff6b00; /* Orange on hover */
+        }
+        
+        /* ========================================
+           RESPONSIVE DESIGN - TABLET
+           ======================================== */
+        @media (max-width: 768px) {
+            /* Smaller hero text for tablets */
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            /* Single column layout for about and builds */
+            .about, .build-container {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Smaller about image on tablets */
+            .about-img {
+                height: 300px;
+            }
+        }
+        
+        /* ========================================
+           RESPONSIVE DESIGN - MOBILE
+           ======================================== */
+        @media (max-width: 576px) {
+            /* Stack navigation vertically on mobile */
+            nav {
+                flex-direction: column;
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links li {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            
+            /* Even smaller hero text for mobile */
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* ========================================
+           EXTERNAL FONT IMPORTS
+           ======================================== */
+        /* Import Font Awesome for social media icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+  
+.hamburger {
+  display: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Show hamburger and hide nav links on mobile */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    background-color: rgba(249, 249, 249, 0.95);
+    padding: 1rem 5%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .nav-links.mobile-active {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 1rem 0;
+  }
+}
+</style>
+ </head>
+ <body>
+  <div id="auth-container">
+   <h2>
+    Login
+   </h2>
+   <input id="email" placeholder="Email" type="email"/>
+   <input id="password" placeholder="Password" type="password"/>
+   <button onclick="login()">
+    Log In
+   </button>
+   <button onclick="signup()">
+    Sign Up
+   </button>
+   <p id="auth-status">
+   </p>
+  </div>
+  <!-- ========================================
+         NAVIGATION BAR
+         ======================================== -->
+   <nav>
+    
+<div class="hamburger" onclick="toggleMobileMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+<div class="logo">
+      JETTY373
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#builds">FPV &amp; Surron</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#links">Links</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="login.html" id="login-link" target="_blank">Login</a></li>
+    </ul>
+  </nav>
+  
+  <!-- ========================================
+         HERO SECTION WITH IMAGE CAROUSEL
+         ======================================== -->
+  <section class="hero" id="home">
+   <!-- Carousel container with background images -->
+   <div class="hero-carousel">
+    <!-- ============================================
+                 HERO CAROUSEL IMAGES - REPLACE THESE URLS
+                 ============================================
+                 
+                 Instructions for adding your images:
+                 
+                 METHOD 1 - GitHub Raw URLs (if using GitHub Pages):
+                 Replace 'YOUR_GITHUB_USERNAME' and 'YOUR_REPO_NAME' with your actual GitHub info
+                 Example: https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/bigdrone_ornage.jpg
+                 
+                 METHOD 2 - Local file paths (if hosting elsewhere):
+                 Replace with relative paths like: './images/bigdrone_ornage.jpg'
+                 
+                 METHOD 3 - Full URLs (if images are hosted elsewhere):
+                 Replace with complete URLs like: 'https://your-domain.com/images/bigdrone_ornage.jpg'
+            -->
+    <!-- SLIDE 1: Mungaphi Sunset Ocean Image (NOW FIRST) -->
+    <div class="hero-slide active" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_mungaphisunset_ocean.webp')">
+    </div>
+    <!-- SLIDE 2: Big Drone Orange Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_bigdrone_orange%20(2).webp')">
+    </div>
+    <!-- SLIDE 3: 4357and Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/IMG_4357.webp')">
+    </div>
+    <!-- SLIDE 4: Truck Top Down Image -->
+    <div class="hero-slide" style="background-image: url('https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/img_website_v2/img_trucktopdown.webp')">
+    </div>
+    <!-- 
+                 TO ADD MORE SLIDES:
+                 1. Copy one of the div blocks above
+                 2. Change the image URL
+                 3. Add a new indicator dot below (in the carousel-indicators section)
+                 4. Update the JavaScript totalSlides variable if needed
+            -->
+   </div>
+   <!-- Hero text content -->
+   <div class="hero-content">
+    <h1>
+     Jetty373
+    </h1>
+    <p>
+     FPV Drone Pilot &amp; Electric Motorbike Builder
+    </p>
+    <a class="cta-button" href="#builds">
+     View My Builds
+    </a>
+   </div>
+   <!-- Carousel navigation dots -->
+   <div class="carousel-indicators">
+    <div class="indicator active" data-slide="0">
+    </div>
+    <div class="indicator" data-slide="1">
+    </div>
+    <div class="indicator" data-slide="2">
+    </div>
+    <div class="indicator" data-slide="3">
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
+         ABOUT SECTION
+         ======================================== -->
+  <section class="about" id="about">
+   <div class="about-img">
+    <img alt="About Me" src="https://images.unsplash.com/photo-1523841589304-aa4a0d5437de?q=80&amp;w=1974&amp;auto=format&amp;fit=crop"/>
+   </div>
+   <div class="about-content">
+    <h2>
+     About Me
+    </h2>
+    <p>
+     Welcome to my personal space! I'm passionate about FPV drone flying and custom electric vehicle builds. My journey started with a simple interest in remote-controlled aircraft and has evolved into designing and building high-performance FPV drones and modifying electric vehicles like my custom Surron.
+    </p>
+    <p>
+     I enjoy pushing the boundaries of what's possible with modern electric technology, whether it's capturing breathtaking aerial footage or optimizing my Surron for both off-road performance and street use.
+    </p>
+    <p>
+     When I'm not flying drones or riding, I'm constantly researching new components, techniques, and innovations in the electric vehicle space. This website showcases my builds, projects, and provides links to resources I find valuable.
+    </p>
+   </div>
+  </section>
+  <!-- ========================================
+         BUILDS SECTION (FPV & SURRON)
+         ======================================== -->
+  <section class="builds" id="builds">
+   <div class="section-header">
+    <h2>
+     My Builds
+    </h2>
+    <p>
+     Custom FPV drones and electric motorbike builds
+    </p>
+   </div>
+   <div class="build-container">
+    <!-- FPV Drone Build -->
+    <div class="build-item">
+     <div class="build-img">
+      <img alt="FPV Drone" src="https://images.unsplash.com/photo-1597424216809-3ba9864aefe0?q=80&amp;w=1974&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="build-content">
+      <h3>
+       FPV Drone Builds
+      </h3>
+      <p>
+       I specialize in building custom FPV (First Person View) drones optimized for different flight characteristics and applications.
+      </p>
+      <ul>
+       <li>
+        5" Freestyle Quad with DJI Digital FPV System
+       </li>
+       <li>
+        3" Cinewhoop for indoor cinematography
+       </li>
+       <li>
+        7" Long Range Explorer with GPS return-to-home
+       </li>
+       <li>
+        Custom 3D printed parts and frames
+       </li>
+      </ul>
+      <p>
+       Each build is carefully tuned for optimal flight characteristics using Betaflight configurator, with custom PID settings and motor configurations.
+      </p>
+     </div>
+    </div>
+    <!-- Surron Electric Bike Build -->
+    <div class="build-item">
+     <div class="build-img">
+      <img alt="Surron Electric Bike" src="https://images.unsplash.com/photo-1558981852-426c6c22a060?q=80&amp;w=2070&amp;auto=format&amp;fit=crop"/>
+     </div>
+     <div class="build-content">
+      <h3>
+       Surron Electric Motorbike
+      </h3>
+      <p>
+       My custom-built Surron has been modified for enhanced performance both on and off-road.
+      </p>
+      <ul>
+       <li>
+        Upgraded controller for increased power output
+       </li>
+       <li>
+        Custom battery configuration for extended range
+       </li>
+       <li>
+        Reinforced suspension for aggressive trail riding
+       </li>
+       <li>
+        Upgraded braking system for better stopping power
+       </li>
+       <li>
+        Street-legal conversion kit with turn signals and headlight
+       </li>
+      </ul>
+      <p>
+       The Surron offers an incredible balance of power, agility, and range, making it perfect for both trail adventures and urban commuting.
+      </p>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
+         PROJECTS SECTION
+         ======================================== -->
+  <section class="projects" id="projects">
+     <h2 style="color: #005f99; text-align: center;">My Projects</h2>
+  <div class="project-grid">
+    <a href="project-surron-battery.html" class="project-card">
+      <div class="project-img">
+        <img src="img_website_v2/IMG_4291.webp" alt="Surron Battery Upgrade" />
+      </div>
+      <div class="project-content">
+        <h3>DIY Surron ebike</h3>
+        <p>Custom home made eletric motor bike.</p>
+      </div>
+    </a>
+    <a href="project-aerial-photography.html" class="project-card">
+      <div class="project-img">
+        <img src="img_website_v2/img_biancaspiral_zoom.webp" alt="Aerial Photography" />
+      </div>
+      <div class="project-content">
+        <h3>Aerial Photography</h3>
+        <p>High-altitude drone shots from around NZ.</p>
+      </div>
+    </a>
+    <a href="project-fpv-racing.html" class="project-card">
+      <div class="project-img">
+        <img src="nazugl.webp" alt="FPV Racing" />
+      </div>
+      <div class="project-content">
+        <h3>FPV Racing</h3>
+        <p>Custom race tracks and drone events.</p>
+      </div>
+    </a>
+    <a href="project-3d-printed.html" class="project-card">
+      <div class="project-img">
+        <img src="img_website_v2/IMG_0992.webp" alt="3D Printed Parts" />
+      </div>
+      <div class="project-content">
+        <h3>3D Printed Drone Parts</h3>
+        <p>Frames, mounts and gear, all printed in-house.</p>
+      </div>
+    </a>
+  </div>
+  </section>
+  <!-- ========================================
+         LINKS SECTION
+         ======================================== -->
+  <section class="links" id="links">
+   <div class="section-header">
+    <h2>
+     Useful Links
+    </h2>
+    <p>
+     Resources and connections
+    </p>
+   </div>
+   <div class="links-grid">
+    <!-- YouTube Link Card -->
+    <div class="link-card">
+     <i class="fab fa-youtube">
+     </i>
+     <h3>
+      YouTube Channel
+     </h3>
+     <p>
+      Check out my drone flights, Surron rides, and build tutorials.
+     </p>
+     <a href="https://youtube.com/@jetty373" target="_blank">
+      Visit Channel
+     </a>
+    </div>
+    <!-- Instagram Link Card -->
+    <div class="link-card">
+     <i class="fab fa-instagram">
+     </i>
+     <h3>
+      Instagram
+     </h3>
+     <p>
+      Follow my latest builds and adventures on Instagram.
+     </p>
+     <a href="https://instagram.com/jetty373" target="_blank">
+      Follow Me
+     </a>
+    </div>
+    <!-- Discord Link Card -->
+    <div class="link-card">
+     <i class="fab fa-discord">
+     </i>
+     <h3>
+      Discord Server
+     </h3>
+     <p>
+      Join our community of drone pilots and electric vehicle enthusiasts.
+     </p>
+     <a href="https://discord.gg/S3zcMGEj" target="_blank">
+      Join Server
+     </a>
+    </div>
+    <!-- Gaming Link Card -->
+    <div class="link-card">
+     <i class="fa-solid fa-gamepad">
+     </i>
+     <h3>
+      Games
+     </h3>
+     <p>
+      Connect with me for gaming sessions and virtual hangouts.
+     </p>
+     <a href="https://steamcommunity.com/id/jetty373" target="_blank">
+      Steam Profile
+     </a>
+    </div>
+   </div>
+  </section>
+  <!-- ========================================
+         CONTACT SECTION
+         ======================================== -->
+  <section class="contact" id="contact">
+   <div class="section-header">
+    <h2>
+     Get In Touch
+    </h2>
+    <p>
+     Have questions about FPV drones or Surron builds?
+    </p>
+   </div>
+   <div class="contact-form">
+    <form>
+     <div class="form-group">
+      <label for="name">
+       Name
+      </label>
+      <input id="name" required="" type="text"/>
+     </div>
+     <div class="form-group">
+      <label for="email">
+       Email
+      </label>
+      <input id="email" required="" type="email"/>
+     </div>
+     <div class="form-group">
+      <label for="subject">
+       Subject
+      </label>
+      <input id="subject" type="text"/>
+     </div>
+     <div class="form-group">
+      <label for="message">
+       Message
+      </label>
+      <textarea id="message" required=""></textarea>
+     </div>
+     <button class="submit-button" type="submit">
+      Send Message
+     </button>
+    </form>
+   </div>
+  </section>
+  <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
+  <footer>
+   <ul class="social-links">
+    <li>
+     <a href="https://youtube.com/@jetty373" target="_blank">
+      <i class="fab fa-youtube">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://instagram.com/jetty373" target="_blank">
+      <i class="fab fa-instagram">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://discord.gg/S3zcMGEj" target="_blank">
+      <i class="fab fa-discord">
+      </i>
+     </a>
+    </li>
+    <li>
+     <a href="https://steamcommunity.com/id/jetty373" target="_blank">
+      <i class="fab fa-steam">
+      </i>
+     </a>
+    </li>
+   </ul>
+   <p>
+    © 2025 Jetty373. All rights reserved.
+   </p>
+  </footer>
+  <!-- ========================================
+         JAVASCRIPT FUNCTIONALITY
+         ======================================== -->
+  <script>
+   // ========================================
+        // HERO IMAGE CAROUSEL FUNCTIONALITY
+        // ========================================
+        
+        // Initialize carousel variables
+        let currentSlide = 0; // Track which slide is currently active
+        const slides = document.querySelectorAll('.hero-slide'); // Get all slide elements
+        const indicators = document.querySelectorAll('.indicator'); // Get all indicator dots
+        const totalSlides = slides.length; // Total number of slides
+        
+        /**
+         * Show a specific slide by index
+         * @param {number} index - The slide index to show (0-based)
+         */
+        function showSlide(index) {
+            // Remove active class from current slide and indicator
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            
+            // Update current slide index
+            currentSlide = index;
+            
+            // Add active class to new slide and indicator
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+        
+        /**
+         * Advance to the next slide (loops back to first after last)
+         */
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % totalSlides; // Calculate next index with wrap-around
+            showSlide(nextIndex);
+        }
+        
+        // Auto-advance slides every 5 seconds (5000 milliseconds)
+        const carouselInterval = setInterval(nextSlide, 5000);
+        
+        // Add click event listeners to indicator dots
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                // When user clicks a dot, clear auto-advance and show that slide
+                clearInterval(carouselInterval);
+                showSlide(index);
+                // Restart auto-advance after user interaction
+                setTimeout(() => {
+                    setInterval(nextSlide, 5000);
+                }, 5000);
+            });
+        });
+        
+        // ========================================
+        // NAVIGATION SCROLL EFFECTS
+        // ========================================
+        
+        /**
+         * Change navigation styling based on scroll position
+         */
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            
+            // If scrolled down more than 50px, make nav more compact
+            if (window.scrollY > 50) {
+                nav.style.padding = '1rem 5%'; // Smaller padding
+                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)'; // Add shadow
+            } else {
+                // When at top, use original larger padding and no shadow
+                nav.style.padding = '2rem 5%';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // ========================================
+        // SMOOTH SCROLLING FOR ANCHOR LINKS
+        // ========================================
+        
+        /**
+         * Add smooth scrolling behavior to all internal anchor links
+         */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default jump behavior
+                
+                // Get the target element ID from the href
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                // If target element exists, scroll to it smoothly
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Offset for fixed navigation
+                        behavior: 'smooth' // Smooth scrolling animation
+                    });
+                }
+            });
+        });
+
+        // ========================================
+        // ADDITIONAL CAROUSEL FEATURES (Optional)
+        // ========================================
+        
+        /**
+         * Pause carousel on hover (uncomment to enable)
+         */
+        // const heroSection = document.querySelector('.hero');
+        // let isPaused = false;
+        // 
+        // heroSection.addEventListener('mouseenter', () => {
+        //     isPaused = true;
+        //     clearInterval(carouselInterval);
+        // });
+        // 
+        // heroSection.addEventListener('mouseleave', () => {
+        //     if (!isPaused) return;
+        //     isPaused = false;
+        //     setInterval(nextSlide, 5000);
+        // });
+
+        /**
+         * Keyboard navigation for carousel (uncomment to enable)
+         */
+        // document.addEventListener('keydown', (e) => {
+        //     if (e.key === 'ArrowLeft') {
+        //         const prevIndex = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
+        //         showSlide(prevIndex);
+        //     } else if (e.key === 'ArrowRight') {
+        //         nextSlide();
+        //     }
+        // });
+
+        // ========================================
+        // PERFORMANCE OPTIMIZATIONS
+        // ========================================
+        
+        /**
+         * Preload carousel images for better performance
+         * 
+         * 🔄 UPDATE THESE IMAGE URLS TO MATCH YOUR HERO CAROUSEL IMAGES ABOVE
+         */
+        function preloadCarouselImages() {
+            const imageUrls = [
+                // ⬇️ REPLACE THESE TEMP URLs WITH YOUR ACTUAL IMAGE URLS ⬇️
+                'https://images.unsplash.com/photo-1597424216809-3ba9864aefe0?q=80&w=1974&auto=format&fit=crop', // TEMP: Replace with bigdrone_ornage.jpg
+                'https://images.unsplash.com/photo-1579373791421-12f2d66321d3?q=80&w=1974&auto=format&fit=crop', // TEMP: Replace with mungaphisunset_ocen.jpg
+                'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=1980&auto=format&fit=crop', // TEMP: Replace with 4357and.jpg
+                'https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop'  // TEMP: Replace with trucktopdown.jpg
+                // ⬆️ REPLACE THESE TEMP URLs WITH YOUR ACTUAL IMAGE URLS ⬆️
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+        
+        // Call preload function when page loads
+        window.addEventListener('load', preloadCarouselImages);
+
+        // ========================================
+        // MOBILE RESPONSIVENESS ENHANCEMENTS
+        // ========================================
+        
+        /**
+         * Handle mobile menu toggle (if you want to add a hamburger menu later)
+         */
+        // function toggleMobileMenu() {
+        //     const navLinks = document.querySelector('.nav-links');
+        //     navLinks.classList.toggle('mobile-active');
+        // }
+
+        /**
+         * Adjust carousel timing for mobile devices
+         */
+        function adjustCarouselForMobile() {
+            if (window.innerWidth <= 768) {
+                // Slower transitions on mobile for better UX
+                const slides = document.querySelectorAll('.hero-slide');
+                slides.forEach(slide => {
+                    slide.style.transition = 'opacity 2s ease-in-out';
+                });
+            }
+        }
+        
+        // Call on load and resize
+        window.addEventListener('load', adjustCarouselForMobile);
+        window.addEventListener('resize', adjustCarouselForMobile);
+
+        // ========================================
+        // FORM HANDLING (Contact Form)
+        // ========================================
+        
+        /**
+         * Handle contact form submission
+         */
+        const contactForm = document.querySelector('.contact-form form');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                
+                // Get form data
+                const formData = new FormData(this);
+                const name = formData.get('name') || document.getElementById('name').value;
+                const email = formData.get('email') || document.getElementById('email').value;
+                const subject = formData.get('subject') || document.getElementById('subject').value;
+                const message = formData.get('message') || document.getElementById('message').value;
+                
+                // Basic form validation
+                if (!name || !email || !message) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Here you would typically send the form data to your server
+                // For now, we'll just show a success message
+                alert('Thank you for your message! I\'ll get back to you soon.');
+                
+                // Reset form
+                this.reset();
+                
+                // You can replace the alert with a more sophisticated notification system
+                // or integrate with services like Formspree, Netlify Forms, etc.
+            });
+        }
+
+        // ========================================
+        // INTERSECTION OBSERVER (Scroll Animations)
+        // ========================================
+        
+        /**
+         * Add scroll-triggered animations (uncomment to enable)
+         */
+        // const observerOptions = {
+        //     threshold: 0.1,
+        //     rootMargin: '0px 0px -50px 0px'
+        // };
+        // 
+        // const observer = new IntersectionObserver((entries) => {
+        //     entries.forEach(entry => {
+        //         if (entry.isIntersecting) {
+        //             entry.target.classList.add('animate-in');
+        //         }
+        //     });
+        // }, observerOptions);
+        // 
+        // // Observe sections for scroll animations
+        // document.querySelectorAll('section').forEach(section => {
+        //     observer.observe(section);
+        // });
+
+        // ========================================
+        // UTILITY FUNCTIONS
+        // ========================================
+        
+        /**
+         * Debounce function for performance optimization
+         */
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        /**
+         * Throttle function for scroll events
+         */
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        // ========================================
+        // CONSOLE LOG FOR DEBUGGING
+        // ========================================
+        
+        // Log when carousel is initialized
+        console.log('Jetty373 Website Loaded Successfully!');
+        console.log(`Carousel initialized with ${totalSlides} slides`);
+        
+        // Log current slide changes (helpful for debugging)
+        const originalShowSlide = showSlide;
+        showSlide = function(index) {
+            console.log(`Switching to slide ${index + 1} of ${totalSlides}`);
+            originalShowSlide(index);
+        };
 
     <script>
-        // Unique namespace and key (replace these with your own values)
-        const namespace = "your-github-username";
-        const key = "your-counter-name"; 
-
-        // API call to increase count
-        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("count").innerText = data.value;
-            })
-            .catch(error => console.error("Error fetching count:", error));
-    </script>
-</body>
+      const auth = firebase.auth();
+    
+      function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+    
+        auth.signInWithEmailAndPassword(email, password)
+          .then(userCredential => {
+            document.getElementById("auth-status").textContent = `Logged in as ${userCredential.user.email}`;
+          })
+          .catch(error => {
+            document.getElementById("auth-status").textContent = error.message;
+          });
+      }
+    
+      function signup() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+    
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(userCredential => {
+            document.getElementById("auth-status").textContent = `Signed up as ${userCredential.user.email}`;
+          })
+          .catch(error => {
+            document.getElementById("auth-status").textContent = error.message;
+          });
+      }
+    
+      // Auto-login state detection
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          document.getElementById("auth-status").textContent = `Logged in as ${user.email}`;
+        }
+      });
+  </script>
+  <button onclick="logout()">
+   Log Out
+  </button>
+  <script>
+   function logout() {
+        firebase.auth().signOut().then(() => {
+          document.getElementById("auth-status").textContent = "Logged out";
+        });
+      }
+  
+function toggleMobileMenu() {
+  const navLinks = document.querySelector('.nav-links');
+  navLinks.classList.toggle('mobile-active');
+}
+</script>
+  <section id="login-page" style="padding: 100px 10%; display: none;">
+   <h2>
+    Login Page
+   </h2>
+   <input id="email" placeholder="Email" type="email"/>
+   <input id="password" placeholder="Password" type="password"/>
+   <button onclick="login()">
+    Log In
+   </button>
+   <button onclick="signup()">
+    Sign Up
+   </button>
+   <p id="auth-status">
+   </p>
+  </section>
+  <section id="success-page" style="padding: 100px 10%; display: none;">
+   <h2>
+    Login Successful
+   </h2>
+   <p>
+    Welcome! You have successfully logged in.
+   </p>
+   <button onclick="logout()">
+    Log Out
+   </button>
+  </section>
+ </body>
 </html>
