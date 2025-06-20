@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Quiz Host Panel</h1>
+
+  <div id="room-setup">
+    <button id="generate-room">Generate Room Code</button>
+    <p>Your Room Code: <strong id="room-code-display"></strong></p>
+  </div>
+
+  <label for="quiz-select">Choose a quiz:</label>
+  <select id="quiz-select">
+    <option value="general">General Knowledge</option>
+    <option value="science">Science</option>
+    <option value="history">History</option>
+  </select>
+  <br><br>
+  <button id="start-quiz" disabled>Start Quiz</button>
+
+  <div id="question-box" class="question-box" style="display:none;">
+    <div class="timer" id="timer"></div>
+    <div class="question" id="host-question-text"></div>
+    <div class="answers" id="host-answer-buttons"></div>
+    <button id="next-question">Next Question</button>
+  </div>
+
+  <ul class="leaderboard" id="leaderboard"></ul>
+
+  <script type="module">
+    import { db } from './db.js';
+    import { ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    let quizData = [];
+    let currentIndex = 0;
+    let roomCode = null;
+
+    function generateRoomCode() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    document.getElementById('generate-room').addEventListener('click', () => {
+      roomCode = generateRoomCode();
+      document.getElementById('room-code-display').textContent = roomCode;
+      document.getElementById('start-quiz').disabled = false;
+      console.log("Generated room code:", roomCode);
+    });
+
+    async function loadQuiz(topic) {
+      const res = await fetch(`questions/${topic}.json`);
+      quizData = await res.json();
+      console.log("Quiz loaded:", quizData);
+    }
+
+    function displayQuestion() {
+      const q = quizData[currentIndex];
+      document.getElementById('host-question-text').textContent = q.question;
+      const btnContainer = document.getElementById('host-answer-buttons');
+      btnContainer.innerHTML = '';
+      q.answers.forEach(ans => {
+        const btn = document.createElement('button');
+        btn.textContent = ans;
+        btn.disabled = true;
+        btnContainer.appendChild(btn);
+      });
+
+      const qRef = ref(db, `rooms/${roomCode}/currentQuestion`);
+      set(qRef, {
+        question: q.question,
+        answers: q.answers,
+        correct: q.correct
+      }).then(() => {
+        console.log("Question sent to Firebase:", q);
+      }).catch(err => console.error("Firebase write error:", err));
+    }
+
+    function startTimer(duration = 10) {
+      let time = duration;
+      document.getElementById('timer').textContent = `Time: ${time}s`;
+      const timerInterval = setInterval(() => {
+        time--;
+        document.getElementById('timer').textContent = `Time: ${time}s`;
+        if (time <= 0) clearInterval(timerInterval);
+      }, 1000);
+    }
+
+    document.getElementById('start-quiz').addEventListener('click', async () => {
+      if (!roomCode) {
+        alert("Please generate a room code first.");
+        return;
+      }
+
+      const selectedQuiz = document.getElementById('quiz-select').value;
+      await loadQuiz(selectedQuiz);
+
+      document.getElementById('question-box').style.display = 'block';
+      displayQuestion();
+      startTimer();
+    });
+
+    document.getElementById('next-question').addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex < quizData.length) {
+        displayQuestion();
+        startTimer();
+      } else {
+        document.getElementById('host-question-text').textContent = "Quiz complete!";
+        document.getElementById('host-answer-buttons').innerHTML = '';
+        document.getElementById('timer').style.display = 'none';
+        showLeaderboard();
+      }
+    });
+
+    function showLeaderboard() {
+      const list = document.getElementById('leaderboard');
+      onValue(ref(db, `rooms/${roomCode}/players`), snapshot => {
+        const scores = [];
+        snapshot.forEach(child => {
+          scores.push(child.val());
+        });
+        scores.sort((a, b) => b.score - a.score);
+        list.innerHTML = '<h2>Leaderboard</h2>' + scores.map(p => `<li>${p.name} - ${p.score}</li>`).join('');
+        console.log("Leaderboard updated:", scores);
+      });
+    }
+  </script>
+</body>
+</html>

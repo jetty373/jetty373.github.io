@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "answers": ["Paris", "Berlin", "Madrid", "Rome"],
+    "correct": "Paris"
+  },
+  {
+    "question": "Which planet is known as the Red Planet?",
+    "answers": ["Earth", "Mars", "Jupiter", "Venus"],
+    "correct": "Mars"
+  },
+  {
+    "question": "What language is primarily used for web development?",
+    "answers": ["Python", "C++", "JavaScript", "Java"],
+    "correct": "JavaScript"
+  },
+  {
+    "question": "Which ocean is the largest?",
+    "answers": ["Atlantic", "Indian", "Arctic", "Pacific"],
+    "correct": "Pacific"
+  },
+  {
+    "question": "How many continents are there on Earth?",
+    "answers": ["5", "6", "7", "8"],
+    "correct": "7"
+  }
+]
