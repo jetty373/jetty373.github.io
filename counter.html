@@ -664,11 +664,10 @@
          NAVIGATION BAR
          ======================================== -->
    <nav>
-    
-<div class="hamburger" onclick="toggleMobileMenu()">
-  <i class="fas fa-bars"></i>
-</div>
-<div class="logo">
+    <div class="logo">JETTY373</div>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
       JETTY373
     </div>
     <ul class="nav-links">
@@ -1047,7 +1046,13 @@
          JAVASCRIPT FUNCTIONALITY
          ======================================== -->
   <script>
-   // ========================================
+   
+function toggleMobileMenu() {
+  const navLinks = document.querySelector('.nav-links');
+  navLinks.classList.toggle('mobile-active');
+}
+
+// ========================================
         // HERO IMAGE CAROUSEL FUNCTIONALITY
         // ========================================
         
@@ -1392,12 +1397,7 @@
           document.getElementById("auth-status").textContent = "Logged out";
         });
       }
-  
-function toggleMobileMenu() {
-  const navLinks = document.querySelector('.nav-links');
-  navLinks.classList.toggle('mobile-active');
-}
-</script>
+  </script>
   <section id="login-page" style="padding: 100px 10%; display: none;">
    <h2>
     Login Page
