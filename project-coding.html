@@ -5,17 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coding Projects - Jetty373</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       background: #f4f4f4;
-      padding: 4rem 10%;
+      color: #333;
+      padding: 6rem 10% 4rem; /* extra top padding for fixed nav */
+    }
+
+    /* =============================
+       Navigation styles
+       ============================= */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(249, 249, 249, 0.95);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #777;
+    }
+
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
       color: #333;
     }
-    header { text-align: center; }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background-color: rgba(249, 249, 249, 0.95);
+        padding: 1rem 5%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+      }
+
+      .nav-links.mobile-active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 1rem 0;
+      }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
     h1 {
       font-size: 2.2rem;
       color: #005f99;
     }
+
     .content {
       margin-top: 2rem;
       font-size: 1.15rem;
@@ -28,6 +115,48 @@
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .project-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .project-content {
+      padding: 1rem;
+    }
+
+    .project-content h3 {
+      margin: 0 0 0.5rem;
+      color: #0077cc;
+    }
+
+    .project-content p {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
     .back-link {
       display: block;
       margin: 2rem auto 0;
@@ -39,13 +168,62 @@
   </style>
 </head>
 <body>
+  <nav>
+    <div class="logo">JETTY373</div>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links">
+      <li><a href="test_new_main.html#home">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="test_new_main.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
   <header>
     <h1>Coding Projects</h1>
   </header>
   <div class="content">
     <p>A collection of scripts, games, and web experiments I'm working on.</p>
     <p>More in-depth code samples and tutorials will be posted soon.</p>
+    <div class="project-grid" id="projects">
+      <a href="#" class="project-card">
+        <div class="project-img">
+          <img src="img_website_v2/IMG_0992.webp" alt="Calculator" />
+        </div>
+        <div class="project-content">
+          <h3>JavaScript Calculator</h3>
+          <p>Simple calculator built with vanilla JS.</p>
+        </div>
+      </a>
+      <a href="#" class="project-card">
+        <div class="project-img">
+          <img src="img_website_v2/IMG_0993.webp" alt="Todo List" />
+        </div>
+        <div class="project-content">
+          <h3>Todo List App</h3>
+          <p>Manage tasks using local storage.</p>
+        </div>
+      </a>
+      <a href="#" class="project-card">
+        <div class="project-img">
+          <img src="img_website_v2/IMG_1004.webp" alt="Snake Game" />
+        </div>
+        <div class="project-content">
+          <h3>Snake Game</h3>
+          <p>Classic game recreated using canvas.</p>
+        </div>
+      </a>
+    </div>
   </div>
   <a href="test_new_main.html" class="back-link">← Back to Home</a>
+
+  <script>
+    function toggleMobileMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('mobile-active');
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
 </body>
 </html>
