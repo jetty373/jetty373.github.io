@@ -117,7 +117,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 
   <script>
-    // Three.js setup
+    // Scene setup
     const stage = document.getElementById('stage');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 100);
@@ -127,7 +127,6 @@
     renderer.setSize(stage.clientWidth, stage.clientHeight);
     stage.appendChild(renderer.domElement);
 
-    // Lights
     scene.add(new THREE.HemisphereLight(0xffffff, 0x111111, 1));
     const key = new THREE.DirectionalLight(0xffffff, 0.9);
     key.position.set(2, 3, 4);
@@ -137,11 +136,11 @@
     const loadingBar = document.getElementById('loading-bar');
     const loadingProgress = document.getElementById('loading-bar-progress');
 
-    // Load model
+    // Load model from GitHub raw link
     const loader = new THREE.GLTFLoader();
     let backpack;
-    loader.load(
-      'student_backpack_vol3.glb',
+    loader.load(https://raw.githubusercontent.com/jetty373/art/main/backpack.glb)
+      'RAW_GLB_URL_HERE', // 👈 paste your raw GitHub .glb URL here
       (gltf) => {
         backpack = gltf.scene;
         backpack.scale.set(1.2, 1.2, 1.2);
@@ -209,7 +208,7 @@
     }
 
     // Form handling
-    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE'; // 👈 paste your Google Apps Script URL here
     const form = document.getElementById('note-form');
     const textarea = document.getElementById('note');
     const sendBtn = document.getElementById('send');
