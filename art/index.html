@@ -4,14 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Little Things — Backpack Project</title>
-  <meta name="description" content="An art project: drop a small, meaningful note into the backpack." />
   <style>
     html, body {
       height: 100%;
       margin: 0;
       background: #000;
       color: #fff;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: system-ui, sans-serif;
     }
     .app {
       min-height: 100%;
@@ -26,27 +25,16 @@
     }
     canvas { display: block; }
     .title {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      right: 16px;
-      text-align: center;
-      opacity: .9;
-      font-weight: 600;
-      font-size: clamp(14px, 2.5vw, 16px);
+      position: absolute; top: 16px; left: 0; right: 0;
+      text-align: center; font-weight: 600; opacity: .9;
     }
     .subtitle {
-      position: absolute;
-      top: 42px;
-      left: 16px;
-      right: 16px;
-      text-align: center;
-      opacity: .7;
-      font-size: clamp(12px, 2.2vw, 14px);
+      position: absolute; top: 42px; left: 0; right: 0;
+      text-align: center; opacity: .7; font-size: 14px;
     }
     .input-bar {
       background: rgba(0,0,0,.9);
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top: 1px solid rgba(255,255,255,.1);
       padding: 16px;
     }
     form {
@@ -58,58 +46,57 @@
     }
     textarea {
       min-height: 64px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: #0d0d0d;
+      padding: 12px;
+      border-radius: 8px;
+      background: #111;
       color: #fff;
-      border: 1px solid rgba(255,255,255,.12);
-      font-size: 16px;
+      border: 1px solid rgba(255,255,255,.2);
       resize: vertical;
     }
     button {
-      border: 0;
-      background: #fff;
-      color: #000;
-      font-weight: 600;
-      padding: 12px 18px;
-      border-radius: 10px;
+      background: #fff; color: #000;
+      border: 0; padding: 12px 18px;
+      font-weight: 600; border-radius: 8px;
       cursor: pointer;
     }
     button:active { transform: translateY(1px); }
     .hint {
-      margin-top: 8px;
-      font-size: 12px;
-      color: #aaa;
-      text-align: center;
+      text-align: center; font-size: 12px;
+      margin-top: 6px; opacity: .7;
     }
+    /* Progress bar */
+    #loading-bar {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: #222; z-index: 100;
+    }
+    #loading-bar-progress {
+      width: 0%; height: 100%;
+      background: #4cafef; transition: width .3s;
+    }
+    /* Toast */
     .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 94px;
+      position: fixed; bottom: 90px; left: 50%;
       transform: translateX(-50%);
-      background: #111;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,.15);
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      opacity: 0;
-      transition: opacity .25s ease, transform .25s ease;
+      background: #111; padding: 10px 14px;
+      border-radius: 8px; font-size: 14px;
+      opacity: 0; transition: opacity .3s, transform .3s;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+    /* Paper */
     .paper {
-      position: fixed;
-      width: 20px;
-      height: 16px;
-      background: linear-gradient(135deg, #fff 0 50%, #eee 50%);
-      border: 1px solid rgba(0,0,0,.25);
+      position: fixed; width: 20px; height: 16px;
+      background: linear-gradient(135deg,#fff 0 50%,#eee 50%);
+      border: 1px solid rgba(0,0,0,.3);
       border-radius: 2px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.35);
+      box-shadow: 0 2px 6px rgba(0,0,0,.4);
       pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <div id="loading-bar"><div id="loading-bar-progress"></div></div>
+
   <div class="app">
     <section id="stage">
       <div class="title">Little Things</div>
@@ -121,7 +108,7 @@
         <textarea id="note" placeholder="Share something…"></textarea>
         <button id="send" type="submit">Send</button>
       </form>
-      <div class="hint">Your note is anonymous and won’t be shown again.</div>
+      <div class="hint">Anonymous. Your note won’t be shown again after sending.</div>
     </div>
   </div>
 
@@ -130,7 +117,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 
   <script>
-    // Scene setup
+    // Three.js setup
     const stage = document.getElementById('stage');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 100);
@@ -140,31 +127,53 @@
     renderer.setSize(stage.clientWidth, stage.clientHeight);
     stage.appendChild(renderer.domElement);
 
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x111111, 1.0);
-    scene.add(hemi);
+    // Lights
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x111111, 1));
     const key = new THREE.DirectionalLight(0xffffff, 0.9);
     key.position.set(2, 3, 4);
     scene.add(key);
 
-    let backpack;
-    new THREE.GLTFLoader().load('student_backpack_vol3.glb', (gltf) => {
-      backpack = gltf.scene;
-      backpack.scale.set(1.2, 1.2, 1.2);
-      scene.add(backpack);
-    });
+    // Progress bar
+    const loadingBar = document.getElementById('loading-bar');
+    const loadingProgress = document.getElementById('loading-bar-progress');
 
-    function tick(){
-      requestAnimationFrame(tick);
+    // Load model
+    const loader = new THREE.GLTFLoader();
+    let backpack;
+    loader.load(
+      'student_backpack_vol3.glb',
+      (gltf) => {
+        backpack = gltf.scene;
+        backpack.scale.set(1.2, 1.2, 1.2);
+        scene.add(backpack);
+        loadingBar.style.display = 'none';
+      },
+      (xhr) => {
+        if (xhr.total) {
+          loadingProgress.style.width = (xhr.loaded / xhr.total) * 100 + '%';
+        }
+      },
+      (err) => {
+        console.error('Error loading backpack:', err);
+        loadingBar.style.background = '#f33';
+        loadingProgress.style.background = '#f88';
+      }
+    );
+
+    // Animate
+    function animate(){
+      requestAnimationFrame(animate);
       if (backpack) backpack.rotation.y += 0.004;
       renderer.render(scene, camera);
     }
-    tick();
+    animate();
 
-    window.addEventListener('resize', () => {
+    // Resize
+    window.addEventListener('resize', ()=>{
       const w = stage.clientWidth, h = stage.clientHeight;
-      camera.aspect = w / h;
-      camera.updatejectionMatrix();
-      renderer.setSize(w, h);
+      camera.aspect = w/h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w,h);
     });
 
     // Paper animation
@@ -186,9 +195,21 @@
       ], { duration: 900, easing: 'ease-in-out' }).onfinish = ()=>paper.remove();
     }
 
-    // Connect to Google Sheets (replace URL!)
-    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+    // Toast
+    function showToast(msg){
+      let t = document.querySelector('.toast');
+      if(!t){
+        t = document.createElement('div');
+        t.className = 'toast';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'), 2200);
+    }
 
+    // Form handling
+    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
     const form = document.getElementById('note-form');
     const textarea = document.getElementById('note');
     const sendBtn = document.getElementById('send');
@@ -209,51 +230,6 @@
       sendBtn.disabled = true;
       showToast("Sent. Thank you.");
     });
-
-    function showToast(msg){
-      let t = document.querySelector('.toast');
-      if(!t){
-        t = document.createElement('div');
-        t.className = 'toast';
-        document.body.appendChild(t);
-      }
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(()=>t.classList.remove('show'),2200);
-    }
-
-    <!-- Progress bar -->
-<div id="loading" style="position:absolute;top:0;left:0;width:100%;height:4px;background:#222;">
-  <div id="progress" style="width:0%;height:100%;background:#4cafef;transition:width 0.3s;"></div>
-</div>
-
-<script>
-  const loader = new THREE.GLTFLoader();
-  let backpack;
-
-  loader.load(
-    'student_backpack_vol3.glb',
-    (gltf) => {
-      backpack = gltf.scene;
-      backpack.scale.set(1.2, 1.2, 1.2);
-      scene.add(backpack);
-
-      // Hide progress bar
-      document.getElementById('loading').style.display = 'none';
-    },
-    (xhr) => {
-      // Update progress bar (xhr.loaded / xhr.total is sometimes 0 if server doesn't send size)
-      if (xhr.total) {
-        const percent = (xhr.loaded / xhr.total) * 100;
-        document.getElementById('progress').style.width = percent + "%";
-      }
-    },
-    (error) => {
-      console.error('Error loading backpack:', error);
-      document.getElementById('loading').innerHTML = "<p style='color:#f66;text-align:center;'>Failed to load backpack.</p>";
-    }
-  );
-
   </script>
 </body>
 </html>
