@@ -139,9 +139,11 @@
     // Load model from GitHub raw link
     const loader = new THREE.GLTFLoader();
     let backpack;
-    loader.load(https://raw.githubusercontent.com/jetty373/art/main/backpack.glb)
-      'RAW_GLB_URL_HERE', // 👈 paste your raw GitHub .glb URL here
-      (gltf) => {
+    loader.load(
+      'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
+      (gltf) => { /* same callback code */ }
+    );
+
         backpack = gltf.scene;
         backpack.scale.set(1.2, 1.2, 1.2);
         scene.add(backpack);
