@@ -140,9 +140,25 @@
     const loader = new THREE.GLTFLoader();
     let backpack;
     loader.load(
-      'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
-      (gltf) => { /* same callback code */ }
+      'https://raw.githubusercontent.com/jetty373/art/main/student_backpack_vol3.glb',
+      (gltf) => {
+        backpack = gltf.scene;
+        backpack.scale.set(1.2, 1.2, 1.2);
+        scene.add(backpack);
+        loadingBar.style.display = 'none';
+      },
+      (xhr) => {
+        if (xhr.total) {
+          loadingProgress.style.width = (xhr.loaded / xhr.total) * 100 + '%';
+        }
+      },
+      (err) => {
+        console.error('Error loading backpack:', err);
+        loadingBar.style.background = '#f33';
+        loadingProgress.style.background = '#f88';
+      }
     );
+
 
         backpack = gltf.scene;
         backpack.scale.set(1.2, 1.2, 1.2);
