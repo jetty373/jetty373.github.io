@@ -136,30 +136,12 @@
     const loadingBar = document.getElementById('loading-bar');
     const loadingProgress = document.getElementById('loading-bar-progress');
 
-    // Load model from GitHub raw link
+    // Load backpack model from GitHub raw link
     const loader = new THREE.GLTFLoader();
     let backpack;
     loader.load(
-      'https://raw.githubusercontent.com/jetty373/art/main/student_backpack_vol3.glb',
+      'https://raw.githubusercontent.com/jetty373/art/main/student_backpack_vol3.glb', // 👈 your backpack file
       (gltf) => {
-        backpack = gltf.scene;
-        backpack.scale.set(1.2, 1.2, 1.2);
-        scene.add(backpack);
-        loadingBar.style.display = 'none';
-      },
-      (xhr) => {
-        if (xhr.total) {
-          loadingProgress.style.width = (xhr.loaded / xhr.total) * 100 + '%';
-        }
-      },
-      (err) => {
-        console.error('Error loading backpack:', err);
-        loadingBar.style.background = '#f33';
-        loadingProgress.style.background = '#f88';
-      }
-    );
-
-
         backpack = gltf.scene;
         backpack.scale.set(1.2, 1.2, 1.2);
         scene.add(backpack);
@@ -226,7 +208,7 @@
     }
 
     // Form handling
-    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE'; // 👈 paste your Google Apps Script URL here
+    const SHEETS_WEBAPP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE'; // 👈 replace this
     const form = document.getElementById('note-form');
     const textarea = document.getElementById('note');
     const sendBtn = document.getElementById('send');
