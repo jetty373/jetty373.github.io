@@ -186,78 +186,169 @@
     const loadingProgress = document.getElementById('loading-bar-progress');
     const loadingMessage = document.getElementById('loading-message');
 
-    // Create a better fallback 3D backpack
+    // Create a much better, realistic 3D backpack
     function createFallbackBackpack() {
       const group = new THREE.Group();
       
-      // Main body (more backpack-shaped)
-      const bodyGeometry = new THREE.BoxGeometry(1, 1.4, 0.5);
+      // Main backpack body - more rounded and realistic
+      const bodyShape = new THREE.Shape();
+      bodyShape.moveTo(-0.4, -0.6);
+      bodyShape.lineTo(-0.4, 0.5);
+      bodyShape.quadraticCurveTo(-0.4, 0.7, -0.2, 0.7);
+      bodyShape.lineTo(0.2, 0.7);
+      bodyShape.quadraticCurveTo(0.4, 0.7, 0.4, 0.5);
+      bodyShape.lineTo(0.4, -0.6);
+      bodyShape.quadraticCurveTo(0.4, -0.7, 0.2, -0.7);
+      bodyShape.lineTo(-0.2, -0.7);
+      bodyShape.quadraticCurveTo(-0.4, -0.7, -0.4, -0.6);
+      
+      const bodyGeometry = new THREE.ExtrudeGeometry(bodyShape, {
+        depth: 0.35,
+        bevelEnabled: true,
+        bevelThickness: 0.02,
+        bevelSize: 0.02,
+        bevelSegments: 3
+      });
+      
       const bodyMaterial = new THREE.MeshLambertMaterial({ 
-        color: 0x2a4d3a,
-        roughness: 0.8 
+        color: 0x1a472a,
+        roughness: 0.9
       });
       const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-      body.position.y = -0.1;
+      body.position.z = -0.175;
       group.add(body);
       
-      // Front pocket
-      const pocketGeometry = new THREE.BoxGeometry(0.8, 0.7, 0.15);
-      const pocketMaterial = new THREE.MeshLambertMaterial({ color: 0x1e3d2e });
-      const pocket = new THREE.Mesh(pocketGeometry, pocketMaterial);
-      pocket.position.set(0, -0.2, 0.33);
-      group.add(pocket);
+      // Front compartment with zipper detail
+      const frontGeometry = new THREE.RoundedBoxGeometry(0.65, 0.5, 0.12, 4, 0.02);
+      const frontMaterial = new THREE.MeshLambertMaterial({ color: 0x15401f });
+      const frontPocket = new THREE.Mesh(frontGeometry, frontMaterial);
+      frontPocket.position.set(0, -0.1, 0.24);
+      group.add(frontPocket);
       
-      // Side pockets
-      const sidePocketGeometry = new THREE.CylinderGeometry(0.12, 0.12, 0.6);
-      const sidePocketMaterial = new THREE.MeshLambertMaterial({ color: 0x1e3d2e });
+      // Top compartment
+      const topGeometry = new THREE.RoundedBoxGeometry(0.7, 0.25, 0.15, 4, 0.02);
+      const topPocket = new THREE.Mesh(topGeometry, frontMaterial);
+      topPocket.position.set(0, 0.45, 0.22);
+      group.add(topPocket);
       
-      const leftPocket = new THREE.Mesh(sidePocketGeometry, sidePocketMaterial);
-      leftPocket.position.set(-0.6, -0.1, 0);
-      leftPocket.rotation.z = Math.PI / 2;
-      group.add(leftPocket);
+      // Side mesh pockets
+      const sidePocketGeometry = new THREE.CylinderGeometry(0.08, 0.12, 0.4, 8);
+      const sideMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x0f2f1a,
+        transparent: true,
+        opacity: 0.8
+      });
       
-      const rightPocket = new THREE.Mesh(sidePocketGeometry, sidePocketMaterial);
-      rightPocket.position.set(0.6, -0.1, 0);
-      rightPocket.rotation.z = Math.PI / 2;
-      group.add(rightPocket);
+      const leftSidePocket = new THREE.Mesh(sidePocketGeometry, sideMaterial);
+      leftSidePocket.position.set(-0.45, -0.2, 0.1);
+      leftSidePocket.rotation.z = Math.PI / 2;
+      group.add(leftSidePocket);
       
-      // Shoulder straps
-      const strapGeometry = new THREE.CylinderGeometry(0.04, 0.04, 1.8);
-      const strapMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+      const rightSidePocket = new THREE.Mesh(sidePocketGeometry, sideMaterial);
+      rightSidePocket.position.set(0.45, -0.2, 0.1);
+      rightSidePocket.rotation.z = Math.PI / 2;
+      group.add(rightSidePocket);
+      
+      // Realistic shoulder straps with padding
+      const strapPath = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.25, 0.6, -0.1),
+        new THREE.Vector3(-0.3, 0.3, -0.2),
+        new THREE.Vector3(-0.35, -0.2, -0.25),
+        new THREE.Vector3(-0.3, -0.8, -0.15)
+      ]);
+      
+      const strapGeometry = new THREE.TubeGeometry(strapPath, 20, 0.04, 6);
+      const strapMaterial = new THREE.MeshLambertMaterial({ color: 0x2a2a2a });
       
       const leftStrap = new THREE.Mesh(strapGeometry, strapMaterial);
-      leftStrap.position.set(-0.35, 0.1, -0.25);
-      leftStrap.rotation.x = Math.PI * 0.1;
       group.add(leftStrap);
       
-      const rightStrap = new THREE.Mesh(strapGeometry, strapMaterial);
-      rightStrap.position.set(0.35, 0.1, -0.25);
-      rightStrap.rotation.x = Math.PI * 0.1;
+      const rightStrap = leftStrap.clone();
+      rightStrap.scale.x = -1;
       group.add(rightStrap);
       
-      // Top handle
-      const handleGeometry = new THREE.TorusGeometry(0.18, 0.04, 6, 12);
+      // Strap padding (the cushy parts)
+      const paddingGeometry = new THREE.RoundedBoxGeometry(0.12, 0.3, 0.04, 4, 0.01);
+      const paddingMaterial = new THREE.MeshLambertMaterial({ color: 0x404040 });
+      
+      const leftPadding = new THREE.Mesh(paddingGeometry, paddingMaterial);
+      leftPadding.position.set(-0.32, 0.1, -0.22);
+      group.add(leftPadding);
+      
+      const rightPadding = new THREE.Mesh(paddingGeometry, paddingMaterial);
+      rightPadding.position.set(0.32, 0.1, -0.22);
+      group.add(rightPadding);
+      
+      // Top handle with realistic grip
+      const handleCurve = new THREE.EllipseCurve(0, 0, 0.15, 0.08, 0, Math.PI);
+      const handlePoints = handleCurve.getPoints(16);
+      const handleGeometry = new THREE.LatheGeometry(
+        handlePoints.map(p => new THREE.Vector2(p.x + 0.15, p.y)), 
+        12
+      );
       const handleMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
       const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-      handle.position.y = 0.8;
+      handle.position.set(0, 0.78, 0);
+      handle.rotation.z = Math.PI / 2;
       handle.rotation.x = Math.PI / 2;
       group.add(handle);
       
-      // Zipper details
-      const zipperGeometry = new THREE.BoxGeometry(0.6, 0.02, 0.02);
+      // Zippers and hardware details
+      const zipperGeometry = new THREE.RoundedBoxGeometry(0.55, 0.015, 0.008, 4, 0.002);
       const zipperMaterial = new THREE.MeshLambertMaterial({ color: 0x666666 });
-      const zipper = new THREE.Mesh(zipperGeometry, zipperMaterial);
-      zipper.position.set(0, 0.6, 0.26);
-      group.add(zipper);
       
-      // Logo patch
-      const logoGeometry = new THREE.CircleGeometry(0.08, 8);
-      const logoMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      // Main zipper
+      const mainZipper = new THREE.Mesh(zipperGeometry, zipperMaterial);
+      mainZipper.position.set(0, 0.6, 0.18);
+      group.add(mainZipper);
+      
+      // Front pocket zipper
+      const frontZipper = new THREE.Mesh(zipperGeometry, zipperMaterial);
+      frontZipper.position.set(0, 0.15, 0.305);
+      frontZipper.scale.x = 0.8;
+      group.add(frontZipper);
+      
+      // Zipper pulls
+      const pullGeometry = new THREE.BoxGeometry(0.02, 0.04, 0.015);
+      const pullMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
+      
+      const mainPull = new THREE.Mesh(pullGeometry, pullMaterial);
+      mainPull.position.set(0.2, 0.6, 0.19);
+      group.add(mainPull);
+      
+      const frontPull = new THREE.Mesh(pullGeometry, pullMaterial);
+      frontPull.position.set(-0.15, 0.15, 0.315);
+      group.add(frontPull);
+      
+      // Brand logo area
+      const logoGeometry = new THREE.RoundedBoxGeometry(0.15, 0.08, 0.005, 4, 0.005);
+      const logoMaterial = new THREE.MeshLambertMaterial({ color: 0x2a2a2a });
       const logo = new THREE.Mesh(logoGeometry, logoMaterial);
-      logo.position.set(0, 0.2, 0.26);
+      logo.position.set(0, 0.25, 0.31);
       group.add(logo);
       
-      group.scale.set(0.7, 0.7, 0.7);
+      // Reflective strips for realism
+      const reflectiveGeometry = new THREE.RoundedBoxGeometry(0.03, 0.2, 0.002, 2, 0.001);
+      const reflectiveMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0xcccccc,
+        emissive: 0x222222
+      });
+      const reflectiveStrip = new THREE.Mesh(reflectiveGeometry, reflectiveMaterial);
+      reflectiveStrip.position.set(0.35, 0, 0.18);
+      group.add(reflectiveStrip);
+      
+      const reflectiveStrip2 = reflectiveStrip.clone();
+      reflectiveStrip2.position.x = -0.35;
+      group.add(reflectiveStrip2);
+      
+      // Bottom reinforcement
+      const bottomGeometry = new THREE.RoundedBoxGeometry(0.75, 0.08, 0.32, 4, 0.02);
+      const bottomMaterial = new THREE.MeshLambertMaterial({ color: 0x0a0a0a });
+      const bottomPanel = new THREE.Mesh(bottomGeometry, bottomMaterial);
+      bottomPanel.position.set(0, -0.66, 0);
+      group.add(bottomPanel);
+      
+      group.scale.set(0.9, 0.9, 0.9);
       return group;
     }
 
@@ -331,7 +422,9 @@
     function animate(){
       requestAnimationFrame(animate);
       if (backpack) {
-        backpack.rotation.y += 0.004;
+        backpack.rotation.y += 0.008; // Slightly faster rotation
+        // Add a gentle up-down float
+        backpack.position.y = Math.sin(Date.now() * 0.001) * 0.05;
       }
       renderer.render(scene, camera);
     }
