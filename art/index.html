@@ -186,47 +186,78 @@
     const loadingProgress = document.getElementById('loading-bar-progress');
     const loadingMessage = document.getElementById('loading-message');
 
-    // Create a fallback 3D backpack
+    // Create a better fallback 3D backpack
     function createFallbackBackpack() {
       const group = new THREE.Group();
       
-      // Main body
-      const bodyGeometry = new THREE.BoxGeometry(1, 1.2, 0.4);
-      const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x2a4d3a });
+      // Main body (more backpack-shaped)
+      const bodyGeometry = new THREE.BoxGeometry(1, 1.4, 0.5);
+      const bodyMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x2a4d3a,
+        roughness: 0.8 
+      });
       const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+      body.position.y = -0.1;
       group.add(body);
       
       // Front pocket
-      const pocketGeometry = new THREE.BoxGeometry(0.8, 0.6, 0.2);
+      const pocketGeometry = new THREE.BoxGeometry(0.8, 0.7, 0.15);
       const pocketMaterial = new THREE.MeshLambertMaterial({ color: 0x1e3d2e });
       const pocket = new THREE.Mesh(pocketGeometry, pocketMaterial);
-      pocket.position.z = 0.3;
-      pocket.position.y = -0.2;
+      pocket.position.set(0, -0.2, 0.33);
       group.add(pocket);
       
-      // Straps
-      const strapGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5);
-      const strapMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      // Side pockets
+      const sidePocketGeometry = new THREE.CylinderGeometry(0.12, 0.12, 0.6);
+      const sidePocketMaterial = new THREE.MeshLambertMaterial({ color: 0x1e3d2e });
       
-      const leftStraP = new THREE.Mesh(strapGeometry, strapMaterial);
-      leftStraP.position.set(-0.4, 0.2, -0.2);
-      leftStraP.rotation.x = Math.PI * 0.1;
-      group.add(leftStraP);
+      const leftPocket = new THREE.Mesh(sidePocketGeometry, sidePocketMaterial);
+      leftPocket.position.set(-0.6, -0.1, 0);
+      leftPocket.rotation.z = Math.PI / 2;
+      group.add(leftPocket);
+      
+      const rightPocket = new THREE.Mesh(sidePocketGeometry, sidePocketMaterial);
+      rightPocket.position.set(0.6, -0.1, 0);
+      rightPocket.rotation.z = Math.PI / 2;
+      group.add(rightPocket);
+      
+      // Shoulder straps
+      const strapGeometry = new THREE.CylinderGeometry(0.04, 0.04, 1.8);
+      const strapMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+      
+      const leftStrap = new THREE.Mesh(strapGeometry, strapMaterial);
+      leftStrap.position.set(-0.35, 0.1, -0.25);
+      leftStrap.rotation.x = Math.PI * 0.1;
+      group.add(leftStrap);
       
       const rightStrap = new THREE.Mesh(strapGeometry, strapMaterial);
-      rightStrap.position.set(0.4, 0.2, -0.2);
+      rightStrap.position.set(0.35, 0.1, -0.25);
       rightStrap.rotation.x = Math.PI * 0.1;
       group.add(rightStrap);
       
       // Top handle
-      const handleGeometry = new THREE.TorusGeometry(0.15, 0.03, 8, 16);
-      const handleMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      const handleGeometry = new THREE.TorusGeometry(0.18, 0.04, 6, 12);
+      const handleMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
       const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-      handle.position.y = 0.7;
+      handle.position.y = 0.8;
       handle.rotation.x = Math.PI / 2;
       group.add(handle);
       
-      group.scale.set(0.8, 0.8, 0.8);
+      // Zipper details
+      const zipperGeometry = new THREE.BoxGeometry(0.6, 0.02, 0.02);
+      const zipperMaterial = new THREE.MeshLambertMaterial({ color: 0x666666 });
+      const zipper = new THREE.Mesh(zipperGeometry, zipperMaterial);
+      zipper.position.set(0, 0.6, 0.26);
+      group.add(zipper);
+      
+      // Logo patch
+      const logoGeometry = new THREE.CircleGeometry(0.08, 8);
+      const logoMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      const logo = new THREE.Mesh(logoGeometry, logoMaterial);
+      logo.position.set(0, 0.2, 0.26);
+      group.add(logo);
+      
+      group.scale.set(0.7, 0.7, 0.7);
       return group;
     }
 
