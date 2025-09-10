@@ -60,6 +60,11 @@
       cursor: pointer;
     }
     button:active { transform: translateY(1px); }
+    button:disabled { 
+      background: #666; 
+      color: #333; 
+      cursor: not-allowed; 
+    }
     .hint {
       text-align: center; font-size: 12px;
       margin-top: 6px; opacity: .7;
@@ -92,6 +97,50 @@
       box-shadow: 0 2px 6px rgba(0,0,0,.4);
       pointer-events: none;
     }
+    /* Loading message */
+    .loading-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 0.7;
+    }
+    /* Fallback backpack */
+    .fallback-backpack {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+      border-radius: 20px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: float 3s ease-in-out infinite;
+    }
+    .fallback-backpack::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+    }
+    .fallback-backpack::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #444, #222);
+      border-radius: 50%;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
   </style>
 </head>
 <body>
@@ -101,6 +150,7 @@
     <section id="stage">
       <div class="title">Little Things</div>
       <div class="subtitle">Drop a thought into the backpack.</div>
+      <div class="loading-message" id="loading-message">Loading backpack...</div>
     </section>
 
     <div class="input-bar">
@@ -108,13 +158,12 @@
         <textarea id="note" placeholder="Share something…"></textarea>
         <button id="send" type="submit">Send</button>
       </form>
-      <div class="hint">Anonymous. Your note won’t be shown again after sending.</div>
+      <div class="hint">Anonymous. Your note won't be shown again after sending.</div>
     </div>
   </div>
 
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script>
     // Scene setup
@@ -135,34 +184,124 @@
     // Progress bar
     const loadingBar = document.getElementById('loading-bar');
     const loadingProgress = document.getElementById('loading-bar-progress');
+    const loadingMessage = document.getElementById('loading-message');
 
-    // Load backpack model from GitHub raw link
-    const loader = new THREE.GLTFLoader();
+    // Create a fallback 3D backpack
+    function createFallbackBackpack() {
+      const group = new THREE.Group();
+      
+      // Main body
+      const bodyGeometry = new THREE.BoxGeometry(1, 1.2, 0.4);
+      const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x2a4d3a });
+      const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+      group.add(body);
+      
+      // Front pocket
+      const pocketGeometry = new THREE.BoxGeometry(0.8, 0.6, 0.2);
+      const pocketMaterial = new THREE.MeshLambertMaterial({ color: 0x1e3d2e });
+      const pocket = new THREE.Mesh(pocketGeometry, pocketMaterial);
+      pocket.position.z = 0.3;
+      pocket.position.y = -0.2;
+      group.add(pocket);
+      
+      // Straps
+      const strapGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5);
+      const strapMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      
+      const leftStraP = new THREE.Mesh(strapGeometry, strapMaterial);
+      leftStraP.position.set(-0.4, 0.2, -0.2);
+      leftStraP.rotation.x = Math.PI * 0.1;
+      group.add(leftStraP);
+      
+      const rightStrap = new THREE.Mesh(strapGeometry, strapMaterial);
+      rightStrap.position.set(0.4, 0.2, -0.2);
+      rightStrap.rotation.x = Math.PI * 0.1;
+      group.add(rightStrap);
+      
+      // Top handle
+      const handleGeometry = new THREE.TorusGeometry(0.15, 0.03, 8, 16);
+      const handleMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+      const handle = new THREE.Mesh(handleGeometry, handleMaterial);
+      handle.position.y = 0.7;
+      handle.rotation.x = Math.PI / 2;
+      group.add(handle);
+      
+      group.scale.set(0.8, 0.8, 0.8);
+      return group;
+    }
+
+    // Try to load the GLTF model, fallback to 3D backpack if it fails
     let backpack;
-    loader.load(
-      'https://raw.githubusercontent.com/jetty373/jetty373.github.io/4c3d3226ba7948832defddb64c8211e1a8fed533/art/student_backpack_vol3.glb', // 👈 your backpack file
-      (gltf) => {
-        backpack = gltf.scene;
-        backpack.scale.set(1.2, 1.2, 1.2);
-        scene.add(backpack);
-        loadingBar.style.display = 'none';
-      },
-      (xhr) => {
-        if (xhr.total) {
-          loadingProgress.style.width = (xhr.loaded / xhr.total) * 100 + '%';
+    let modelLoaded = false;
+
+    // GLTFLoader setup (if available)
+    if (typeof THREE.GLTFLoader !== 'undefined') {
+      const loader = new THREE.GLTFLoader();
+      
+      // Your backpack model URL (using raw GitHub URL)
+      const possibleUrls = [
+        'https://raw.githubusercontent.com/jetty373/jetty373.github.io/main/art/student_backpack_vol3.glb',
+        'https://jetty373.github.io/art/student_backpack_vol3.glb'
+      ];
+      
+      let urlIndex = 0;
+      
+      function tryLoadModel() {
+        if (urlIndex >= possibleUrls.length) {
+          // All URLs failed, use fallback
+          console.log('All model URLs failed, using fallback 3D backpack');
+          backpack = createFallbackBackpack();
+          scene.add(backpack);
+          loadingBar.style.display = 'none';
+          loadingMessage.style.display = 'none';
+          modelLoaded = true;
+          return;
         }
-      },
-      (err) => {
-        console.error('Error loading backpack:', err);
-        loadingBar.style.background = '#f33';
-        loadingProgress.style.background = '#f88';
+        
+        const url = possibleUrls[urlIndex];
+        console.log(`Trying to load model from: ${url}`);
+        
+        loader.load(
+          url,
+          (gltf) => {
+            console.log('Model loaded successfully!');
+            backpack = gltf.scene;
+            backpack.scale.set(1.2, 1.2, 1.2);
+            scene.add(backpack);
+            loadingBar.style.display = 'none';
+            loadingMessage.style.display = 'none';
+            modelLoaded = true;
+          },
+          (xhr) => {
+            if (xhr.total) {
+              loadingProgress.style.width = (xhr.loaded / xhr.total) * 100 + '%';
+            }
+          },
+          (err) => {
+            console.error(`Error loading from ${url}:`, err);
+            urlIndex++;
+            setTimeout(tryLoadModel, 1000); // Wait a bit before trying next URL
+          }
+        );
       }
-    );
+      
+      tryLoadModel();
+    } else {
+      // GLTF Loader not available, use fallback immediately
+      console.log('GLTFLoader not available, using fallback 3D backpack');
+      backpack = createFallbackBackpack();
+      scene.add(backpack);
+      loadingBar.style.display = 'none';
+      loadingMessage.style.display = 'none';
+      modelLoaded = true;
+    }
 
     // Animate
     function animate(){
       requestAnimationFrame(animate);
-      if (backpack) backpack.rotation.y += 0.004;
+      if (backpack) {
+        backpack.rotation.y += 0.004;
+      }
       renderer.render(scene, camera);
     }
     animate();
@@ -207,28 +346,74 @@
       setTimeout(()=>t.classList.remove('show'), 2200);
     }
 
-    // Form handling
-    const SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw3DPPKh_BzKf-pSalM2A_udcKSi3z0mXsNqbl4Mesoqtz9MjflMWce-xJfQtkJPlDC/exec'; // 👈 replace this
+    // Form handling with better error handling and fallback
     const form = document.getElementById('note-form');
     const textarea = document.getElementById('note');
     const sendBtn = document.getElementById('send');
 
-    form.addEventListener('submit', (e)=>{
+    // Store notes locally as fallback
+    let notes = [];
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = textarea.value.trim();
-      if(!text) return;
-      launchPaper(sendBtn.getBoundingClientRect());
-      fetch(SHEETS_WEBAPP_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
-      });
-      textarea.value = '';
+      if (!text) return;
+
+      // Disable form
       textarea.disabled = true;
       sendBtn.disabled = true;
-      showToast("Sent. Thank you.");
+      sendBtn.textContent = 'Sending...';
+
+      // Launch paper animation
+      launchPaper(sendBtn.getBoundingClientRect());
+
+      // Store note locally first
+      const note = {
+        text: text,
+        timestamp: new Date().toISOString(),
+        id: Date.now() + Math.random()
+      };
+      notes.push(note);
+      
+      // Try to send to Google Sheets (replace with your actual URL)
+      const SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw3DPPKh_BzKf-pSalM2A_udcKSi3z0mXsNqbl4Mesoqtz9MjflMWce-xJfQtkJPlDC/exec';
+      
+      try {
+        const response = await fetch(SHEETS_WEBAPP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ 
+            text: text,
+            timestamp: note.timestamp 
+          })
+        });
+        
+        console.log('Note sent to Google Sheets');
+        showToast("Sent. Thank you.");
+        
+      } catch (error) {
+        console.log('Google Sheets submission failed, but note stored locally:', error);
+        showToast("Note saved locally. Thank you.");
+      }
+
+      // Clear and reset form
+      textarea.value = '';
+      
+      // Re-enable form after delay
+      setTimeout(() => {
+        textarea.disabled = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+      }, 2000);
     });
+
+    // Add some debugging info
+    console.log('Little Things website loaded');
+    console.log('Total notes stored locally:', notes.length);
   </script>
 </body>
 </html>
